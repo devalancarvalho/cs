@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fechamento de Cards — Suporte | Desenvolvimento / Tech Lead</title>
+<style>
+  :root{
+    --bg: #e9ebee;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --ink-soft: #5b6470;
+    --line: #dde1e6;
+    --navy: #16233d;
+    --navy-2: #223357;
+
+    --automotiva: #1c4d63;
+    --industrial: #4a3b7a;
+    --varejo: #14603e;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#f1f3f6;
+    margin-bottom:36px;
+    border-radius:0 0 18px 18px;
+    padding:52px 40px 40px;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:20px;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    padding-bottom:24px;
+    margin-bottom:24px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9c2cf;
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:32px;
+    margin:10px 0 6px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero .subtitle{
+    color:#c7ceda;
+    font-size:16px;
+    margin:0;
+  }
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    min-width:120px;
+  }
+  .hero-meta .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#9aa5b5;
+    margin-bottom:4px;
+  }
+  .hero-meta .value{
+    font-size:16px;
+    font-weight:600;
+    color:#f4f6f8;
+  }
+
+  .stats-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .stat-box{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    padding:16px 22px;
+    flex:1;
+    min-width:150px;
+  }
+  .stat-box .num{
+    font-size:28px;
+    font-weight:700;
+    color:#ffffff;
+  }
+  .stat-box .cap{
+    font-size:12.5px;
+    color:#b9c2cf;
+    margin-top:2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .area-heading{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin:48px 0 6px;
+  }
+  .area-heading .bar{
+    width:5px;
+    height:20px;
+    border-radius:3px;
+  }
+  .area-heading h1.area{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:22px 0 16px;
+  }
+  .section-title .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .section-title h2{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+    color:var(--ink);
+  }
+  .section-title .count{
+    margin-left:auto;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px rgba(20,25,35,0.04);
+  }
+
+  .item{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:18px;
+    padding:16px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+
+  .item .os{
+    padding-top:2px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  .item .desc .title{
+    font-size:14.5px;
+    color:var(--ink);
+    display:block;
+  }
+  .item .desc .meta{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:4px;
+    display:block;
+  }
+
+  /* ---------- AREA ACCENTS ---------- */
+  .area-automotiva .bar, .cat-automotiva .dot{background:var(--automotiva);}
+  .area-industrial .bar, .cat-industrial .dot{background:var(--industrial);}
+  .area-varejo .bar, .cat-varejo .dot{background:var(--varejo);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:56px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .item{grid-template-columns:1fr;}
+    .hero{padding:36px 22px 28px;}
+    .hero h1{font-size:26px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header.hero{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="brand">CS Compusoftware</div>
+        <h1>Fechamento de Cards — Suporte</h1>
+        <p class="subtitle">Cards atendidos pelo Desenvolvimento / Tech Lead</p>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="label">Origem</div>
+          <div class="value">Suporte</div>
+        </div>
+        <div>
+          <div class="label">Responsável</div>
+          <div class="value">Desenvolvimento / Tech Lead</div>
+        </div>
+        <div>
+          <div class="label">Período</div>
+          <div class="value">Agosto / 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num">42</div>
+        <div class="cap">Cards atendidos</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">3</div>
+        <div class="cap">Áreas de gestão</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">8</div>
+        <div class="cap">Módulos envolvidos</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">21</div>
+        <div class="cap">Clientes atendidos</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================== AUTOMOTIVA ====================== -->
+  <div class="area-heading area-automotiva">
+    <span class="bar"></span>
+    <h1 class="area">Automotiva</h1>
+  </div>
+
+  <div class="section-title cat-automotiva">
+    <span class="dot"></span>
+    <h2>Manutenção Automotiva</h2>
+    <span class="count">13 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">34370</div>
+      <div class="desc"><span class="title">WEB - Falha ao acessar a tela Laboratório de Óleo &gt; Integração</span><span class="meta">Chamado 778958 · Agropeu</span></div>
+    </div>
+    <div class="item">
+      <div class="os">37990</div>
+      <div class="desc"><span class="title">WEB - Parâmetro gravando valor incorreto na tabela</span><span class="meta">Chamado 794222 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38177</div>
+      <div class="desc"><span class="title">WEB - Manutenção Automotiva - Erro de Truncamento, aritmética ou conversão</span><span class="meta">Chamado 795715 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38355</div>
+      <div class="desc"><span class="title">WEB - Não está sendo possível gravar os itens do roteiro (módulo automotivo)</span><span class="meta">Chamado 795881 · Agrovale</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38756</div>
+      <div class="desc"><span class="title">WEB - Falha no cadastro de funcionário</span><span class="meta">Chamado 797620 · Laguna</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38711</div>
+      <div class="desc"><span class="title">WEB - Falha na lógica do flag de "Principal" no responsável do equipamento</span><span class="meta">Chamado 797918 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38739</div>
+      <div class="desc"><span class="title">WEB - Manutenção Automotiva - Plano</span><span class="meta">Chamado 798511 · Grupo TCM</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38729</div>
+      <div class="desc"><span class="title">WEB - Manutenção Automotiva - Ordem de serviço</span><span class="meta">Chamado 798540 · Grupo TCM</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38773</div>
+      <div class="desc"><span class="title">WEB - Manutenção Automotiva - Agregado</span><span class="meta">Chamado 798652 · Grupo TCM</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38751</div>
+      <div class="desc"><span class="title">WEB - Manutenção Automotiva - Parâmetros Automotivo</span><span class="meta">Chamado 798663 · Grupo TCM</span></div>
+    </div>
+    <div class="item">
+      <div class="os">37873</div>
+      <div class="desc"><span class="title">Verificar mensagem ao reprocessar integração de análise de óleo</span><span class="meta">Chamado 794237 · Agropeu</span></div>
+    </div>
+    <div class="item">
+      <div class="os">39044</div>
+      <div class="desc"><span class="title">WEB - Ao gravar o parâmetro, está gravando como "Y" na tabela</span><span class="meta">Chamado 799956 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">39276</div>
+      <div class="desc"><span class="title">WEB - Mensagem ao gerar requisição na OS automotiva</span><span class="meta">Chamado 801301 · UTE Iolando Leite</span></div>
+    </div>
+  </div>
+
+  <div class="section-title cat-automotiva">
+    <span class="dot"></span>
+    <h2>Motomecanização</h2>
+    <span class="count">3 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">37892</div>
+      <div class="desc"><span class="title">WEB - Filtro de funcionário não está respeitando parâmetro</span><span class="meta">Chamado 793473 · Itel</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38014</div>
+      <div class="desc"><span class="title">WEB - No apontamento de terceiro não está puxando a cidade, zona e talhão</span><span class="meta">Chamado 794516 · Itel</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38245</div>
+      <div class="desc"><span class="title">Desktop - JOB Solinftec com "falha"</span><span class="meta">Chamado 795838 · Fazenda Reunidas</span></div>
+    </div>
+  </div>
+
+  <div class="section-title cat-automotiva">
+    <span class="dot"></span>
+    <h2>Posto</h2>
+    <span class="count">5 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">38328</div>
+      <div class="desc"><span class="title">WEB - Posto Abastecimento</span><span class="meta">Chamado 796234 · Cooperval</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38707</div>
+      <div class="desc"><span class="title">WEB - Posto Abastecimento</span><span class="meta">Chamado 796244 · Cooperval</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38694</div>
+      <div class="desc"><span class="title">WEB - Botão para importar todos os equipamentos não funciona no cliente</span><span class="meta">Chamado 797693 · Agropecuária Sete Ilhas</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38704</div>
+      <div class="desc"><span class="title">WEB - Posto Abastecimento - Tela Abastecimento</span><span class="meta">Chamado 798354 · Toledo Ibéria</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38882</div>
+      <div class="desc"><span class="title">Posto - Diferença de valores toneladas de cana analítico/sintético</span><span class="meta">Chamado 798868 · Novo Milênio</span></div>
+    </div>
+  </div>
+
+  <div class="section-title cat-automotiva">
+    <span class="dot"></span>
+    <h2>Posto Abastecimento</h2>
+    <span class="count">1 card</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">38468</div>
+      <div class="desc"><span class="title">Correção - registros de ajustes - medição (movimentação de material)</span><span class="meta">Chamado 795661 · Inpasa</span></div>
+    </div>
+  </div>
+
+  <div class="section-title cat-automotiva">
+    <span class="dot"></span>
+    <h2>Controle de Pneu</h2>
+    <span class="count">5 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">38373</div>
+      <div class="desc"><span class="title">WEB - Controle de Pneu / Relatório Inventário</span><span class="meta">Chamado 795872 · Queiroz de Queiroz</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38533</div>
+      <div class="desc"><span class="title">WEB - Controle de Pneus - Relatório Inventário</span><span class="meta">Chamado 794965 · Queiroz de Queiroz</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38682</div>
+      <div class="desc"><span class="title">WEB - Controle de Pneu - Relatórios</span><span class="meta">Chamado 797914 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">39156</div>
+      <div class="desc"><span class="title">Verificar mensagem ao realizar a movimentação de pneus</span><span class="meta">Chamado 800356 · Censo NSO</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38111</div>
+      <div class="desc"><span class="title">WEB - Controle de Pneus</span><span class="meta">Chamado 794219 · Queiroz de Queiroz</span></div>
+    </div>
+  </div>
+
+  <!-- ====================== INDUSTRIAL ====================== -->
+  <div class="area-heading area-industrial">
+    <span class="bar"></span>
+    <h1 class="area">Industrial</h1>
+  </div>
+
+  <div class="section-title cat-industrial">
+    <span class="dot"></span>
+    <h2>Manutenção Industrial</h2>
+    <span class="count">11 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">37947</div>
+      <div class="desc"><span class="title">WEB - Problema na tela de Solicitação de Serviço</span><span class="meta">Chamado 793972 · Agrovale</span></div>
+    </div>
+    <div class="item">
+      <div class="os">37915</div>
+      <div class="desc"><span class="title">WEB - Verificar tela carregando sem trazer informação</span><span class="meta">Chamado 793967 · Agrovale</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38304</div>
+      <div class="desc"><span class="title">WEB - Filtro de funcionário no apontamento de OS em branco</span><span class="meta">Chamado 796013 · Qualycon</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38499</div>
+      <div class="desc"><span class="title">WEB - Consultas Horas Trabalhadas</span><span class="meta">Chamado 797162 · Cooperval</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38569</div>
+      <div class="desc"><span class="title">WEB - Não está sendo possível inserir/editar a quantidade aplicada da OL industrial</span><span class="meta">Chamado 797142 · USL</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38522</div>
+      <div class="desc"><span class="title">WEB - Falha no filtro de terceiro - BIS</span><span class="meta">Chamado 797352 · RRP Energia</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38717</div>
+      <div class="desc"><span class="title">Correção nos clientes sobre a tela de integração de apontamentos</span><span class="meta">Chamado 797966 · Aralco</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38668</div>
+      <div class="desc"><span class="title">WEB - Tela de parâmetros não abre pelo 4.0</span><span class="meta">Chamado 798172 · Aralco</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38542</div>
+      <div class="desc"><span class="title">WEB - Alterar o formato do campo de data</span><span class="meta">Chamado 797504 · RRP Energia</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38923</div>
+      <div class="desc"><span class="title">Relatório não cadastrado</span><span class="meta">Chamado 799081 · Usina Vale</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38763</div>
+      <div class="desc"><span class="title">WEB - Falha na tela de integração de funcionários</span><span class="meta">Chamado 798161 · Qualycon</span></div>
+    </div>
+  </div>
+
+  <div class="section-title cat-industrial">
+    <span class="dot"></span>
+    <h2>Planejamento Controle de Produção</h2>
+    <span class="count">1 card</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">39173</div>
+      <div class="desc"><span class="title">WEB - Verificar mensagem ao cadastrar produto</span><span class="meta">Chamado 800070 · Compusoft</span></div>
+    </div>
+  </div>
+
+  <!-- ====================== VAREJO ====================== -->
+  <div class="area-heading area-varejo">
+    <span class="bar"></span>
+    <h1 class="area">Varejo</h1>
+  </div>
+
+  <div class="section-title cat-varejo">
+    <span class="dot"></span>
+    <h2>Controle de Retaguarda</h2>
+    <span class="count">3 cards</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">37891</div>
+      <div class="desc"><span class="title">Matheus - Relatório apresenta mensagem</span><span class="meta">Chamado 794191 · Atena</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38562</div>
+      <div class="desc"><span class="title">Machado/Izabella - Diferença PDV e Retaguarda</span><span class="meta">Chamado 796576 · Atena</span></div>
+    </div>
+    <div class="item">
+      <div class="os">38847</div>
+      <div class="desc"><span class="title">Matheus (Posto) - Erro ao visualizar detalhe do evento</span><span class="meta">Chamado 798839 · Atena</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <span>CS Compusoftware — Desenvolvimento / Tech Lead</span>
+    <span>Origem: Suporte · Agosto / 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
