@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fechamento de Projeto — Time PCM | Demais Clientes</title>
+<style>
+  :root{
+    --bg: #e9ebee;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --ink-soft: #5b6470;
+    --line: #dde1e6;
+    --navy: #16233d;
+    --navy-2: #223357;
+    --accent: #a5321f;
+    --accent-soft: #f4e3df;
+
+    --santamaria: #7a3b12;
+    --damata: #1c4d63;
+    --fatima: #4a3b7a;
+    --atena: #14603e;
+    --aralco: #7a1f4a;
+    --colpar: #2b4d1f;
+    --cooperval: #8a5a00;
+    --toledo: #1f4a7a;
+    --qualycon: #6a2f2f;
+    --grupotcm: #3b5c7a;
+    --inpasa: #a5321f;
+    --agrovale: #375a3a;
+    --censo: #5a3d1f;
+    --queiroz: #234a63;
+    --oleomenu: #5c3a6a;
+    --usinavale: #6a4a1f;
+    --ideal: #1f6a4f;
+    --usl: #4a4a7a;
+    --sete-ilhas: #7a4a2f;
+    --itel: #2f6a6a;
+    --agropeu: #6a2f4a;
+    --rrp: #3a5a2f;
+    --compusoft: #4a4f5c;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#f1f3f6;
+    margin-bottom:36px;
+    border-radius:0 0 18px 18px;
+    padding:52px 40px 40px;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:20px;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    padding-bottom:24px;
+    margin-bottom:24px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9c2cf;
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:32px;
+    margin:10px 0 6px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero .subtitle{
+    color:#c7ceda;
+    font-size:16px;
+    margin:0;
+  }
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    min-width:120px;
+  }
+  .hero-meta .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#9aa5b5;
+    margin-bottom:4px;
+  }
+  .hero-meta .value{
+    font-size:16px;
+    font-weight:600;
+    color:#f4f6f8;
+  }
+
+  .stats-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .stat-box{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    padding:16px 22px;
+    flex:1;
+    min-width:150px;
+  }
+  .stat-box .num{
+    font-size:28px;
+    font-weight:700;
+    color:#ffffff;
+  }
+  .stat-box .cap{
+    font-size:12.5px;
+    color:#b9c2cf;
+    margin-top:2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:44px 0 16px;
+  }
+  .section-title .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .section-title h2{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+    color:var(--ink);
+  }
+  .section-title .count{
+    margin-left:auto;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+  .section-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:-10px 0 14px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px rgba(20,25,35,0.04);
+  }
+
+  .card.highlight{
+    border:1.5px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(165,50,31,0.12);
+  }
+
+  .item{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:18px;
+    padding:16px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+
+  .item .os{
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    padding-top:2px;
+  }
+
+  .item .desc{
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .item .desc .tag{
+    display:inline-block;
+    margin-top:6px;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:4px;
+  }
+  .tag.rodobras{
+    background:var(--accent-soft);
+    color:var(--accent);
+  }
+  .tag.matriz{
+    background:#e7edf5;
+    color:var(--navy-2);
+  }
+  .tag.semos{
+    background:#eef0f2;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- CATEGORY ACCENTS ---------- */
+  .cat-santamaria .dot{background:var(--santamaria);}
+  .cat-damata .dot{background:var(--damata);}
+  .cat-fatima .dot{background:var(--fatima);}
+  .cat-atena .dot{background:var(--atena);}
+  .cat-aralco .dot{background:var(--aralco);}
+  .cat-colpar .dot{background:var(--colpar);}
+  .cat-cooperval .dot{background:var(--cooperval);}
+  .cat-toledo .dot{background:var(--toledo);}
+  .cat-qualycon .dot{background:var(--qualycon);}
+  .cat-grupotcm .dot{background:var(--grupotcm);}
+  .cat-inpasa .dot{background:var(--inpasa);}
+  .cat-agrovale .dot{background:var(--agrovale);}
+  .cat-censo .dot{background:var(--censo);}
+  .cat-queiroz .dot{background:var(--queiroz);}
+  .cat-oleomenu .dot{background:var(--oleomenu);}
+  .cat-usinavale .dot{background:var(--usinavale);}
+  .cat-ideal .dot{background:var(--ideal);}
+  .cat-usl .dot{background:var(--usl);}
+  .cat-sete-ilhas .dot{background:var(--sete-ilhas);}
+  .cat-itel .dot{background:var(--itel);}
+  .cat-agropeu .dot{background:var(--agropeu);}
+  .cat-rrp .dot{background:var(--rrp);}
+  .cat-compusoft .dot{background:var(--compusoft);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:56px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .item{grid-template-columns:1fr;}
+    .hero{padding:36px 22px 28px;}
+    .hero h1{font-size:26px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header.hero{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="brand">CS Compusoftware</div>
+        <h1>Fechamento de Projeto — Time PCM</h1>
+        <p class="subtitle">Demandas não planejadas</p>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="label">Product Owner</div>
+          <div class="value">Ivo</div>
+        </div>
+        <div>
+          <div class="label">Equipe</div>
+          <div class="value">Time PCM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num">47</div>
+        <div class="cap">O.S. atendidas no período</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">23</div>
+        <div class="cap">Clientes atendidos</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">7</div>
+        <div class="cap">INPASA / Rodobras</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- INPASA / RODOBRAS — DESTAQUE -->
+  <div class="section-title cat-inpasa">
+    <span class="dot"></span>
+    <h2>INPASA / Rodobras</h2>
+    <span class="count">7 itens</span>
+  </div>
+  <p class="section-note">Rodobras é filial do grupo INPASA. Das O.S. abaixo, apenas a 106930 é da matriz INPASA — as demais são da Rodobras.</p>
+  <div class="card highlight">
+    <div class="item">
+      <div class="os">106820</div>
+      <div class="desc">Desenvolvimento do processo completo de cadastro e apresentação de recado ao usuário, vinculado ao cliente.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+    <div class="item">
+      <div class="os">106930</div>
+      <div class="desc">Verificação da integração via API do campo de Especificações Técnicas (tela 705), não disponível para visualização no TRACOS.<span class="tag matriz">INPASA (matriz)</span></div>
+    </div>
+    <div class="item">
+      <div class="os">107690</div>
+      <div class="desc">Criação do processo de adiantamento para clientes.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+    <div class="item">
+      <div class="os">107726</div>
+      <div class="desc">Ajustes na visualização das informações de detalhamento dos eventos no Movimento do Caixa, para vendas via POS, Carta Frete e TEF.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+    <div class="item">
+      <div class="os">107728</div>
+      <div class="desc">Ajuste na regra de aplicação da Tabela de Preço no PDV, priorizando a regra vinculada ao motorista sobre a do cliente quando ambas estiverem vigentes.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+    <div class="item">
+      <div class="os">107704</div>
+      <div class="desc">Opção de emissão de Nota Fiscal de Acobertamento na tela de consulta de venda, disponível apenas para vendas com NFC-e emitida.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+    <div class="item">
+      <div class="os">107727</div>
+      <div class="desc">Exigência de autenticação de usuário com nível Supervisor para a baixa de abastecimentos posteriores ao dia atual.<span class="tag rodobras">Rodobras</span></div>
+    </div>
+  </div>
+
+  <!-- SANTAMARIA -->
+  <div class="section-title cat-santamaria">
+    <span class="dot"></span>
+    <h2>Santamaria</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107867</div>
+      <div class="desc">Inclusão do campo Total na tela de apontamento de terceiros simplificados.</div>
+    </div>
+  </div>
+
+  <!-- DAMATA -->
+  <div class="section-title cat-damata">
+    <span class="dot"></span>
+    <h2>Damata</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107047</div>
+      <div class="desc">Nova funcionalidade no módulo de Ferramentas para consolidar os gastos com manutenção e a frequência de reparos por equipamento.</div>
+    </div>
+    <div class="item">
+      <div class="os">107138</div>
+      <div class="desc">Inclusão do campo TAG na tela de Ordem de Serviço (Web).</div>
+    </div>
+  </div>
+
+  <!-- FATIMA AGRO ENERGETICA -->
+  <div class="section-title cat-fatima">
+    <span class="dot"></span>
+    <h2>Fátima Agro Energética</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107533</div>
+      <div class="desc">Ajuste no filtro de Veículo em Controle de Pneus &gt; Medição Sulco/Calibragem, permitindo digitar o código em campo separado da descrição.</div>
+    </div>
+  </div>
+
+  <!-- ATENA -->
+  <div class="section-title cat-atena">
+    <span class="dot"></span>
+    <h2>Atena</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">105420</div>
+      <div class="desc">Criação de validações na aba Lacres, impedindo dois históricos com a mesma numeração de lacre por bico.</div>
+    </div>
+  </div>
+
+  <!-- ARALCO -->
+  <div class="section-title cat-aralco">
+    <span class="dot"></span>
+    <h2>Aralco</h2>
+    <span class="count">4 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">105311</div>
+      <div class="desc">Disponibilizar informação de quais usuários realizam alterações em OS geradas por Serviço de Programação.</div>
+    </div>
+    <div class="item">
+      <div class="os">107773</div>
+      <div class="desc">Funcionalidade de "linhas por página" na tela de Manutenção Programada.</div>
+    </div>
+    <div class="item">
+      <div class="os">107098</div>
+      <div class="desc">Melhoria no cálculo do gráfico de OS Aberta x Encerrada no módulo Manutenção Automotiva.</div>
+    </div>
+    <div class="item">
+      <div class="os">107039</div>
+      <div class="desc">Melhoria no filtro de Situação em Consultas &gt; Ferramenta, permitindo selecionar mais de um valor.</div>
+    </div>
+  </div>
+
+  <!-- COLPAR -->
+  <div class="section-title cat-colpar">
+    <span class="dot"></span>
+    <h2>Colpar</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">105436</div>
+      <div class="desc">Opção nos relatórios 1322 e 8109 para listar o valor de custo médio como valor do combustível.</div>
+    </div>
+  </div>
+
+  <!-- COOPERVAL -->
+  <div class="section-title cat-cooperval">
+    <span class="dot"></span>
+    <h2>Cooperval</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107743</div>
+      <div class="desc">Migração da funcionalidade que permite imprimir apenas as tarefas selecionadas.</div>
+    </div>
+    <div class="item">
+      <div class="os">107742</div>
+      <div class="desc">Separação do filtro de equipamento em código/descrição ao abrir uma nova OS industrial.</div>
+    </div>
+    <div class="item">
+      <div class="os">107683</div>
+      <div class="desc">O.S. gerada conforme especificação do card 38317.</div>
+    </div>
+  </div>
+
+  <!-- TOLEDO IBERIA -->
+  <div class="section-title cat-toledo">
+    <span class="dot"></span>
+    <h2>Toledo Ibéria</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107908</div>
+      <div class="desc">Ajuste no almoxarifado que estava refletindo incorretamente no abastecimento (assunto tratado no card 39113).</div>
+    </div>
+    <div class="item">
+      <div class="os">107919</div>
+      <div class="desc">Correção de erro ao alterar o KM do equipamento (OS gerada do card 39159).</div>
+    </div>
+  </div>
+
+  <!-- QUALYCON -->
+  <div class="section-title cat-qualycon">
+    <span class="dot"></span>
+    <h2>Qualycon</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107538</div>
+      <div class="desc">Melhoria na coluna "Situação" para permitir filtro dos dados, assim como já ocorre na versão Desktop.</div>
+    </div>
+    <div class="item">
+      <div class="os">107461</div>
+      <div class="desc">Inclusão das colunas Ano, Número, Origem, Tarefa e Horas Trabalhadas na grid de Funcionários Trabalhando (Manutenção Industrial &gt; Consultas &gt; Monitoramento).</div>
+    </div>
+  </div>
+
+  <!-- GRUPO TCM -->
+  <div class="section-title cat-grupotcm">
+    <span class="dot"></span>
+    <h2>Grupo TCM</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107789</div>
+      <div class="desc">Correção de erro que impedia a inserção de funcionário.</div>
+    </div>
+  </div>
+
+  <!-- AGROVALE -->
+  <div class="section-title cat-agrovale">
+    <span class="dot"></span>
+    <h2>Agrovale</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107606</div>
+      <div class="desc">Correção no inventário de ferramentaria, que exibia itens de Manutenção Automotiva ao abrir inventário/conserto pelo módulo de Manutenção Industrial.</div>
+    </div>
+  </div>
+
+  <!-- CENSO NSO -->
+  <div class="section-title cat-censo">
+    <span class="dot"></span>
+    <h2>Censo NSO</h2>
+    <span class="count">4 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">102421</div>
+      <div class="desc">Correção na integração de requisição de pneus reformados com o sistema RM, que ficava pendente no CS mesmo após envio.</div>
+    </div>
+    <div class="item">
+      <div class="os">106079</div>
+      <div class="desc">Inclusão da data da última revisão na guia Revisão da tela 5263 - Ordem de Serviço.</div>
+    </div>
+    <div class="item">
+      <div class="os">107551</div>
+      <div class="desc">Correção de erro na integração de requisições na tela 5093, nos movimentos 2.2.25, 2.2.26 e 2.2.33.</div>
+    </div>
+    <div class="item">
+      <div class="os">106973</div>
+      <div class="desc">Melhoria no cadastro dos planos de preventiva.</div>
+    </div>
+  </div>
+
+  <!-- QUEIROZ -->
+  <div class="section-title cat-queiroz">
+    <span class="dot"></span>
+    <h2>Queiroz</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107322</div>
+      <div class="desc">Correção na medição de pneus, que não respeitava a quantidade de sulcos parametrizada no cadastro do desenho.</div>
+    </div>
+  </div>
+
+  <!-- OLEOMENU -->
+  <div class="section-title cat-oleomenu">
+    <span class="dot"></span>
+    <h2>Oleomenu</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107562</div>
+      <div class="desc">Correção para permitir expandir o detalhe do check-list mesmo com filtro aplicado em coluna da grid (OS gerada do card 37847).</div>
+    </div>
+    <div class="item">
+      <div class="os">107499</div>
+      <div class="desc">Criação de job para integrar automaticamente os apontamentos de checklist enviados pelo CS App.</div>
+    </div>
+  </div>
+
+  <!-- USINAVALE -->
+  <div class="section-title cat-usinavale">
+    <span class="dot"></span>
+    <h2>Usina Vale</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107950</div>
+      <div class="desc">Melhoria de contraste na coluna Situação para requisições com status "Retirada" (OS gerada do card 39309).</div>
+    </div>
+  </div>
+
+  <!-- GRUPO IDEAL -->
+  <div class="section-title cat-ideal">
+    <span class="dot"></span>
+    <h2>Grupo Ideal</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107520</div>
+      <div class="desc">Inclusão do campo Fazenda/Origem no item de Controle de Viagem, que hoje exibe apenas o campo Fazenda (Destino).</div>
+    </div>
+  </div>
+
+  <!-- USL -->
+  <div class="section-title cat-usl">
+    <span class="dot"></span>
+    <h2>USL</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107038</div>
+      <div class="desc">Ajuste na tela de requisição do CS 4.0 para permitir gerar todas as requisições temporárias de uma vez, como já ocorre na versão Desktop.</div>
+    </div>
+    <div class="item">
+      <div class="os">107196</div>
+      <div class="desc">Reexibição, na versão Web, do alerta de programações próximas do vencimento ao abrir uma OS.</div>
+    </div>
+    <div class="item">
+      <div class="os">107870</div>
+      <div class="desc">Inclusão da coluna de nome/descrição do fornecedor na tela de Solicitação de Orçamento da OS (OS gerada do card 38898).</div>
+    </div>
+  </div>
+
+  <!-- AGROPECUARIA SETE ILHAS -->
+  <div class="section-title cat-sete-ilhas">
+    <span class="dot"></span>
+    <h2>Agropecuária Sete Ilhas</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107779</div>
+      <div class="desc">Correção nas telas 330 e 640.</div>
+    </div>
+  </div>
+
+  <!-- ITEL -->
+  <div class="section-title cat-itel">
+    <span class="dot"></span>
+    <h2>Itel</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107935</div>
+      <div class="desc">Inclusão de linha de Total na grid da aba de Apontamentos Terceiros, seguindo referência da aba Materiais Utilizados.</div>
+    </div>
+  </div>
+
+  <!-- AGROPEU -->
+  <div class="section-title cat-agropeu">
+    <span class="dot"></span>
+    <h2>Agropeu</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107859</div>
+      <div class="desc">Campo para anexo na Solicitação de Serviço (SS), replicado para a aba de Anexos da OS gerada a partir dela.</div>
+    </div>
+    <div class="item">
+      <div class="os">104641</div>
+      <div class="desc">Inclusão de campos na tela de consulta.</div>
+    </div>
+  </div>
+
+  <!-- RRP ENERGIA -->
+  <div class="section-title cat-rrp">
+    <span class="dot"></span>
+    <h2>RRP Energia</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107886</div>
+      <div class="desc">Correção na gravação das informações da aba Checklist na tela de Priorização.</div>
+    </div>
+    <div class="item">
+      <div class="os">107842</div>
+      <div class="desc">Visualização, na versão Web do CS 4.0, das horas já distribuídas por colaborador no processo de GUT.</div>
+    </div>
+    <div class="item">
+      <div class="os">107774</div>
+      <div class="desc">Melhoria na tela de integração de funcionários entre o App e o CS Checklist.</div>
+    </div>
+  </div>
+
+  <!-- COMPUSOFT -->
+  <div class="section-title cat-compusoft">
+    <span class="dot"></span>
+    <h2>Compusoft</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag semos">Sem O.S.</span></div>
+      <div class="desc">Integração com a API da MIX para consumir o hodômetro do veículo, para o cliente Censo NSO.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag semos">Sem O.S.</span></div>
+      <div class="desc">Migração da tela 8760 - Consultas &gt; Ordem de Produção (PCP).</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>CS Compusoftware — Time PCM</span>
+    <span>PO: Ivo</span>
+  </footer>
+
+</div>
+</body>
+</html>
