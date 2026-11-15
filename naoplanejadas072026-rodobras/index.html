@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fechamento de Projeto — Time PCM | INPASA/RODOBRAS</title>
+<style>
+  :root{
+    --bg: #e9ebee;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --ink-soft: #5b6470;
+    --line: #dde1e6;
+    --navy: #16233d;
+    --navy-2: #223357;
+    --accent: #a5321f;
+    --accent-soft: #f4e3df;
+    --credito: #7a3b12;
+    --pdv: #1c4d63;
+    --vendas: #4a3b7a;
+    --financeiro: #14603e;
+    --preco: #7a1f4a;
+    --relatorios: #2b4d1f;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#f1f3f6;
+    margin-bottom:36px;
+    border-radius:0 0 18px 18px;
+    padding:52px 40px 40px;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:20px;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    padding-bottom:24px;
+    margin-bottom:24px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9c2cf;
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:32px;
+    margin:10px 0 6px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero .subtitle{
+    color:#c7ceda;
+    font-size:16px;
+    margin:0;
+  }
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    min-width:120px;
+  }
+  .hero-meta .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#9aa5b5;
+    margin-bottom:4px;
+  }
+  .hero-meta .value{
+    font-size:16px;
+    font-weight:600;
+    color:#f4f6f8;
+  }
+
+  .stats-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .stat-box{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    padding:16px 22px;
+    flex:1;
+    min-width:150px;
+  }
+  .stat-box .num{
+    font-size:28px;
+    font-weight:700;
+    color:#ffffff;
+  }
+  .stat-box .cap{
+    font-size:12.5px;
+    color:#b9c2cf;
+    margin-top:2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:44px 0 16px;
+  }
+  .section-title .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .section-title h2{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+    color:var(--ink);
+  }
+  .section-title .count{
+    margin-left:auto;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px rgba(20,25,35,0.04);
+  }
+
+  .item{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:18px;
+    padding:16px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+
+  .item .os{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    padding-top:2px;
+  }
+  .item .os .num{
+    display:block;
+    font-size:14px;
+    color:var(--ink);
+    font-weight:700;
+  }
+  .item .os .tag{
+    display:inline-block;
+    margin-top:5px;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:4px;
+  }
+  .tag.formal{
+    background:#e7edf5;
+    color:var(--navy-2);
+  }
+  .tag.informal{
+    background:var(--accent-soft);
+    color:var(--accent);
+  }
+
+  .item .desc{
+    font-size:14.5px;
+    color:var(--ink);
+  }
+
+  /* ---------- CATEGORY ACCENTS ---------- */
+  .cat-credito .dot{background:var(--credito);}
+  .cat-pdv .dot{background:var(--pdv);}
+  .cat-vendas .dot{background:var(--vendas);}
+  .cat-financeiro .dot{background:var(--financeiro);}
+  .cat-preco .dot{background:var(--preco);}
+  .cat-relatorios .dot{background:var(--relatorios);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:56px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .item{grid-template-columns:1fr;}
+    .hero{padding:36px 22px 28px;}
+    .hero h1{font-size:26px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header.hero{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="brand">CS Compusoftware</div>
+        <h1>Fechamento de Projeto — Time PCM</h1>
+        <p class="subtitle">Demandas não planejadas atendidas fora do escopo formal de sprint</p>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="label">Cliente</div>
+          <div class="value">INPASA / Rodobras</div>
+        </div>
+        <div>
+          <div class="label">Product Owner</div>
+          <div class="value">Ivo</div>
+        </div>
+        <div>
+          <div class="label">Equipe</div>
+          <div class="value">Time PCM</div>
+        </div>
+        <div>
+          <div class="label">Módulo</div>
+          <div class="value">Posto PDV / Controle de Retaguarda</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num">43</div>
+        <div class="cap">Itens atendidos no período</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">27</div>
+        <div class="cap">Com O.S. formalizada</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">16</div>
+        <div class="cap">Sem O.S. (demanda direta)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTROLE DE CRÉDITO -->
+  <div class="section-title cat-credito">
+    <span class="dot"></span>
+    <h2>Controle de Crédito e Limite</h2>
+    <span class="count">9 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Criação dos grupos para controle de crédito, definindo período de faturamento, dias de vencimento e tolerância.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Inclusão da opção de pagamento decendial no controle de crédito.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Atualização do saldo do limite de crédito no momento da venda, diretamente no PDV.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Criação da opção "Vale a Receber": entrega de valor ao motorista e geração de parcela para a transportadora, com atualização do saldo do limite de crédito em carteira.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Revisão das mensagens de restrição e liberação por senha (cliente bloqueado, parcelas em atraso, cliente sem limite, placa não autorizada, pessoa não autorizada) para as novas regras de crédito, no Desktop e no Smart POS.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106711</span></div>
+      <div class="desc">Ajustes/melhorias na consulta de Controle de Crédito do Cliente (grupo cliente).</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106969</span></div>
+      <div class="desc">Novas colunas na tela de cadastro para controle de bloqueio de clientes, refletindo as informações no CS PDV.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106818</span></div>
+      <div class="desc">Processo completo de apresentação de alerta e liberação vinculado ao Controle de Crédito.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106498</span></div>
+      <div class="desc">Melhorias no processo de Controle de Crédito vinculado ao CS PDV.</div>
+    </div>
+  </div>
+
+  <!-- PDV / PAGAMENTO / RECEBIMENTO -->
+  <div class="section-title cat-pdv">
+    <span class="dot"></span>
+    <h2>PDV, Pagamento e Recebimento</h2>
+    <span class="count">12 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Troco: permitir escolher mais de uma forma de troco para qualquer forma de pagamento, com parâmetro no cadastro do tipo de recebimento indicando se permite troco e o percentual de cada forma sobre a venda.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Redução de telas desnecessárias durante o recebimento, diminuindo cliques e aumentando a produtividade do operador.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Parametrização do tempo que uma venda permanece no carrinho; após esse tempo, os abastecimentos voltam a ficar disponíveis para outra venda.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Alerta parametrizado para sangria obrigatória, com bloqueio operacional do PDV quando o valor em dinheiro ultrapassar o limite parametrizado.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106706</span></div>
+      <div class="desc">Desenvolvimento do processo de alteração de senha no CS PDV, conforme funcionalidade já existente no CS ERP.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106715</span></div>
+      <div class="desc">Ajustes/melhorias no processo de pagamento, nos tipos POS e PIX Estático.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106483</span></div>
+      <div class="desc">Homologação ACBR – SiTef.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106493</span></div>
+      <div class="desc">Melhorias no processo de acesso aos parâmetros do Menu ADMIN do CS PDV, conforme solicitação da Rodobras.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106492</span></div>
+      <div class="desc">Melhorias no processo de Cancelamento de Vendas, conforme solicitação da Rodobras.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106719</span></div>
+      <div class="desc">Ajustes no processo de Finalização da Venda, possibilitando o preenchimento/ajuste de Placa, Km ou Cliente.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106816</span></div>
+      <div class="desc">Desenvolvimento completo do processo de baixa parcial de abastecimentos.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106878</span></div>
+      <div class="desc">Melhorias/desenvolvimento na tela de Intervenção de Bomba, conforme solicitação da Rodobras.</div>
+    </div>
+  </div>
+
+  <!-- VENDAS, VENDEDOR E CARTA FRETE -->
+  <div class="section-title cat-vendas">
+    <span class="dot"></span>
+    <h2>Vendas, Vendedor e Carta Frete</h2>
+    <span class="count">8 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Exibição de todos os funcionários como vendedor no sistema, trazendo todos os funcionários da empresa 2.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Vendedor da venda de combustível: dispensar a seleção, atribuindo automaticamente ao frentista; demais produtos continuam exigindo o vendedor.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Carta frete: permitir a venda de outros produtos além de combustível.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Melhoria na tela de abastecimentos travados, com botão para liberação.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106707</span></div>
+      <div class="desc">Desenvolvimento do processo de inserção de vendedor nas vendas de produtos no CS PDV, trazendo todos os funcionários da GEF.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106710</span></div>
+      <div class="desc">Melhorias/desenvolvimento de nova tela para o processo da Carta Frete.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106791</span></div>
+      <div class="desc">Parâmetro no Retaguarda para valor mínimo de venda, exigindo preenchimento obrigatório de CPF/CNPJ.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106712</span></div>
+      <div class="desc">Ajustes/melhorias no processo de Pré-Cadastro de Clientes, na tela "Informações da Venda".</div>
+    </div>
+  </div>
+
+  <!-- FINANCEIRO / SANGRIA / SUPRIMENTO -->
+  <div class="section-title cat-financeiro">
+    <span class="dot"></span>
+    <h2>Financeiro, Sangria e Suprimento</h2>
+    <span class="count">6 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Suprimento e sangria passam a refletir diretamente no financeiro do ERP no momento em que são realizados.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Ajuste na integração do valor da Carta Frete: gerar parcela no valor da NF, e não mais no valor da carta frete.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106146</span></div>
+      <div class="desc">Geração de dois movimentos bancários nos lançamentos de sangria e reforço de caixa (saída de uma conta e entrada em outra), como em uma transferência bancária.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">107343</span></div>
+      <div class="desc">Geração de movimento de transferência bancária nas sangrias e suprimentos de caixa diretamente no ERP no momento do lançamento no PDV, sem depender do fechamento de caixa; criação de parâmetro no PDV para indicar conta cofre e conta caixa.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">105806</span></div>
+      <div class="desc">Fechamento e Integração de Caixa (Retaguarda Web): inclusão de botões e opções de consulta de detalhamento de eventos hoje presentes apenas na versão Desktop.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106698</span></div>
+      <div class="desc">Perdas e sobras no estoque contábil, referentes ao ajuste de estoque nas medições.</div>
+    </div>
+  </div>
+
+  <!-- REGRA DE PREÇO -->
+  <div class="section-title cat-preco">
+    <span class="dot"></span>
+    <h2>Regra de Preço</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="tag informal">Sem O.S.</span></div>
+      <div class="desc">Revisão da prioridade de apuração de preço (forma de pagamento, cliente, grupo cliente, item); em caso de empate de prioridade entre tabelas, o sistema passa a bloquear a venda.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106947</span></div>
+      <div class="desc">Nova opção no campo "Tipo Valor" denominada "Preço Fixo", para definição de prioridade de preço.</div>
+    </div>
+  </div>
+
+  <!-- RELATÓRIOS -->
+  <div class="section-title cat-relatorios">
+    <span class="dot"></span>
+    <h2>Relatórios</h2>
+    <span class="count">6 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os"><span class="num">106621</span></div>
+      <div class="desc">Relatório de medições de tanque, conforme layout fornecido.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">107330</span></div>
+      <div class="desc">Novo relatório apresentando os valores das sangrias lançadas no CS PDV.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">107341</span></div>
+      <div class="desc">Relatório de vendas por cliente, conforme solicitado pela Rodobras.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106764</span></div>
+      <div class="desc">Relatório para consulta de aferições realizadas e finalizadas no CS PDV.</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">106614</span></div>
+      <div class="desc">Ajustes no relatório de LMC (Livro de Movimentação de Combustíveis).</div>
+    </div>
+    <div class="item">
+      <div class="os"><span class="num">107400</span></div>
+      <div class="desc">Novo relatório referente ao processo de Tabela de Preço.</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>CS Compusoftware — Time PCM · Posto PDV / Controle de Retaguarda</span>
+    <span>Cliente: INPASA / Rodobras · PO: Ivo</span>
+  </footer>
+
+</div>
+</body>
+</html>
