@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time PCM - Atendimentos Concluidos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #e8e9eb;
+    --surface:     #f4f5f7;
+    --card-bg:     #ffffff;
+    --border:      #d1d5db;
+    --border-soft: #e5e7eb;
+    --text-primary:   #111827;
+    --text-secondary: #4b5563;
+    --text-muted:     #9ca3af;
+    --accent:      #1a56a0;
+    --accent-light:#dbeafe;
+    --accent-mid:  #3b82f6;
+    --tag-auto-bg:    #fef3c7;
+    --tag-auto-text:  #92400e;
+    --tag-ind-bg:     #d1fae5;
+    --tag-ind-text:   #065f46;
+    --tag-var-bg:     #ede9fe;
+    --tag-var-text:   #4c1d95;
+    --tag-trib-bg:    #fce7f3;
+    --tag-trib-text:  #831843;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--accent);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: #ffffff22;
+    border: 1.5px solid #ffffff44;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -.5px;
+  }
+  .header-title {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .01em;
+  }
+  .header-sub {
+    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .header-stat {
+    text-align: right;
+  }
+  .header-stat-value {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+  .header-stat-label {
+    color: #93c5fd;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .header-divider {
+    width: 1px; height: 28px;
+    background: #ffffff22;
+  }
+
+  /* ── HERO BAND ── */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .hero-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+  .hero-title span {
+    color: var(--accent);
+  }
+  .hero-desc {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .summary-pills {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .03em;
+  }
+  .pill-auto  { background: var(--tag-auto-bg);  color: var(--tag-auto-text); }
+  .pill-ind   { background: var(--tag-ind-bg);   color: var(--tag-ind-text); }
+  .pill-var   { background: var(--tag-var-bg);   color: var(--tag-var-text); }
+  .pill-trib  { background: var(--tag-trib-bg);  color: var(--tag-trib-text); }
+
+  /* ── MAIN ── */
+  main {
+    padding: 2rem 2.5rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION HEADER (gestao) ── */
+  .section-block {
+    margin-bottom: 2.5rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .section-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: auto;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── CLIENT CARD ── */
+  .client-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.25rem;
+  }
+  .client-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    transition: box-shadow .15s;
+  }
+  .client-card:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,.10);
+  }
+  .client-card-header {
+    padding: .85rem 1.1rem;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    background: #fafbfc;
+  }
+  .client-avatar {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: -.5px;
+  }
+  .client-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .client-modulo {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .client-card-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 9px;
+    flex-shrink: 0;
+  }
+
+  /* ── ITEM LIST ── */
+  .item-list {
+    padding: .5rem 0;
+  }
+  .item-row {
+    padding: .6rem 1.1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    border-bottom: 1px solid var(--border-soft);
+    transition: background .1s;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-row:hover { background: #f9fafb; }
+  .item-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    padding-top: 2px;
+    flex-shrink: 0;
+    width: 44px;
+    text-align: right;
+  }
+  .item-body { flex: 1; min-width: 0; }
+  .item-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+  .item-meta {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 3px;
+  }
+  .item-modulo {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .item-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .item-date {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .item-chamado {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-mid);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 1.5rem 2rem 2rem;
+    color: var(--text-muted);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  footer strong { color: var(--text-secondary); }
+
+  @media (max-width: 700px) {
+    header { padding: 0 1rem; }
+    .hero { flex-direction: column; align-items: flex-start; padding: 1.25rem 1rem; }
+    main { padding: 1.25rem 1rem 2rem; }
+    .client-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo-mark">CS</div>
+    <div>
+      <div class="header-title">CS Compusoftware</div>
+      <div class="header-sub">Time PCM &mdash; Atendimentos Concluidos</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="header-stat">
+      <div class="header-stat-value" id="total-cards">0</div>
+      <div class="header-stat-label">Chamados</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-stat">
+      <div class="header-stat-value" id="total-clients">0</div>
+      <div class="header-stat-label">Clientes</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-stat">
+      <div class="header-stat-value" id="total-gestoes">0</div>
+      <div class="header-stat-label">Gestoes</div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div>
+    <div class="hero-title">Cards/Chamados <span>Atendidos pelo Time PCM</span></div>
+    <div class="hero-desc">Periodo de referencia: Mai &mdash; Jun 2026 &nbsp;&middot;&nbsp; Agrupado por cliente e gestao</div>
+  </div>
+  <div class="summary-pills" id="summary-pills"></div>
+</div>
+
+<main id="main-content"></main>
+
+<footer>
+  Gerado em <strong id="gen-date"></strong> &nbsp;&middot;&nbsp; <strong>CS Compusoftware</strong> &mdash; Time PCM &nbsp;&middot;&nbsp; Uso interno
+</footer>
+
+<script>
+const raw = [
+  {gestao:"Automotiva",modulo:"Controle de Pneu",id:35767,titulo:"WEB - Permitir informar quantidade de sulco igual a 1",chamado:"784779",data:"23/06/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Controle de Pneu",id:34602,titulo:'WEB - Botão "Gerar Relatório" não está funcionando em alguns relatórios',chamado:"779589",data:"05/06/2026",cliente:"USINA_RAA"},
+  {gestao:"Automotiva",modulo:"Controle de Pneus",id:34950,titulo:"WEB - Relatórios não gerando no módulo de Pneus",chamado:"781907",data:"11/06/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Controle de Pneus",id:35955,titulo:"WEB - Relatório não está listando no WEB",chamado:"783760",data:"25/06/2026",cliente:"BIENER_BIOMASSA"},
+  {gestao:"Automotiva",modulo:"Controle de Pneus",id:34222,titulo:"WEB - Mensagem ao selecionar um material na NF, no conserto de pneus",chamado:"778644",data:"29/05/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Controle de Pneus",id:35579,titulo:"WEB - Não está gerando o relatório",chamado:"783898",data:"18/06/2026",cliente:"BIENER_BIOMASSA"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35613,titulo:"WEB - Não está alterando o sistema/componente depois de cadastrado",chamado:"783247",data:"19/06/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:34382,titulo:'WEB - Na Agropéu, não está aparecendo o botão "Gerar Solicitação"',chamado:"779731",data:"02/06/2026",cliente:"AGROPEU"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35887,titulo:"WEB - Mostrar todas ferramentas caso não informe o almoxarifado nos parametros",chamado:"783776",data:"24/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35735,titulo:"WEB - Falha ao gerar o relatório",chamado:"784352",data:"23/06/2026",cliente:"DA_MATA"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35728,titulo:"WEB - Tela de alterar km não está funcional no WEB",chamado:"783758",data:"23/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35718,titulo:"WEB - Verificar mensagem ao listar o relatório",chamado:"784815",data:"22/06/2026",cliente:"AGROPECUARIA_SETE_ILHAS"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35653,titulo:"WEB - Ordenar o filtro de OS, decrescente por Ano",chamado:"783780",data:"22/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35403,titulo:"WEB - Verificar filtro de filial do proprietário do equipamento",chamado:"782624",data:"16/06/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35673,titulo:"WEB - Ao minimizar a tela está desconfigurando",chamado:"784147",data:"22/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35581,titulo:"WEB - Erro ao listar relatório",chamado:"783600",data:"18/06/2026",cliente:"AGUAPEI_AGROENERGIA_NEW"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35742,titulo:"WEB - Problema no filtro de data do período",chamado:"783912",data:"23/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35717,titulo:"WEB - Não está mostrando o histórico de prefixo na tela",chamado:"783665",data:"22/06/2026",cliente:"USL"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35906,titulo:"WEB - Verificar validação ao gravar lançamento BIS, no WEB",chamado:"784818",data:"24/06/2026",cliente:"DA_MATA"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35765,titulo:"WEB - Consulta SQL não está gerando os parâmetros",chamado:"784795",data:"23/06/2026",cliente:"DA_MATA"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35942,titulo:"Cálculo do totalizador divergente",chamado:"784946",data:"24/06/2026",cliente:"COOPERB"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35360,titulo:"Mensagem ao listar o relatório de conferencia de apontamento",chamado:"782883",data:"15/06/2026",cliente:"GSO_MONTE_ALEGRE"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35558,titulo:"WEB - Verificar falha ao entrar na tela da consulta",chamado:"783627",data:"18/06/2026",cliente:"AGUAPEI_AGROENERGIA_NEW"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35555,titulo:"WEB - Falha ao gerar relatório",chamado:"783617",data:"18/06/2026",cliente:"AGUAPEI_AGROENERGIA_NEW"},
+  {gestao:"Automotiva",modulo:"Manutenção Automotiva",id:35430,titulo:"WEB - Verificar mensagem ao listar termo de responsabilidade",chamado:"783123",data:"16/06/2026",cliente:"ARALCO"},
+  {gestao:"Automotiva",modulo:"Motomecanização",id:35229,titulo:"Relatório não traz apontamentos sem equipamento",chamado:"780064",data:"12/06/2026",cliente:"ITEL"},
+  {gestao:"Automotiva",modulo:"Motomecanização",id:34008,titulo:"Ajustar filtro da consulta por grade",chamado:"777544",data:"26/05/2026",cliente:"BALDAN"},
+  {gestao:"Automotiva",modulo:"Motomecanização",id:34921,titulo:"Lentidão no processo de rateio",chamado:"781787",data:"11/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Assistência Técnica",id:34644,titulo:"WEB - Verificar mensagem ao entrar na tela de Ordem de Serviço",chamado:"780059",data:"05/06/2026",cliente:"SOLIS_AQUECEDORES"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:33343,titulo:"Tractian - Verificar integração das horas apontadas da Tractian",chamado:"774683",data:"14/05/2026",cliente:"INPASA_PARAGUAI"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:35279,titulo:"WEB - Não está encerrando o histórico pelo controle de check-list",chamado:"781939",data:"12/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34299,titulo:"WEB - Verificar filtro de período",chamado:"778668",data:"01/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34727,titulo:"Mensagem ao encerrar check-list",chamado:"779790",data:"08/06/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34836,titulo:'Verificar o campo de "classificação" da tela de integração',chamado:"780281",data:"10/06/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34374,titulo:"WEB - Verificar filtro de TAG/Sistema do relatório",chamado:"778694",data:"02/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34114,titulo:"WEB - Verificar problema ao expandir detalhes do check-list",chamado:"778113",data:"27/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:35426,titulo:"WEB - Mensagem ao listar o relatório de ficha de CTE",chamado:"782993",data:"16/06/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:33924,titulo:"WEB - Verificar relatório Check-list",chamado:"777232",data:"25/05/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34298,titulo:"WEB - Verificar consulta de apontamentos check-list",chamado:"778578",data:"01/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34351,titulo:"WEB - Verificar filtro e agrupamento de TAG/Sistema",chamado:"778844",data:"01/06/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34294,titulo:"WEB - Verificar mensagem ao listar consulta de apontamentos check-list",chamado:"778801",data:"01/06/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34205,titulo:"WEB - Não está listando o relatório de etiquetas",chamado:"778384",data:"29/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:35467,titulo:"WEB - Falha ao gerar relatório de Inventário de Máquinas",chamado:"783228",data:"17/06/2026",cliente:"ARALCO"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:33504,titulo:"WEB - Erro no filtro de funcionário",chamado:"775766",data:"18/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34954,titulo:'TRACTIAN - Verificar integração/abertura de OS por "lote" - BR',chamado:"779431",data:"11/06/2026",cliente:"INPASA"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34206,titulo:"WEB - Falha ao listar relatório de diagnostico Sintético",chamado:"778404",data:"29/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34147,titulo:"Relatório cortando os Minutos, na coluna de Horas",chamado:"778331",data:"28/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34224,titulo:"WEB - Não está aparecendo os detalhes no Status do Equipamento",chamado:"778613",data:"29/05/2026",cliente:"USL"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34957,titulo:'TRACTIAN - Verificar integração/abertura de OS por "lote" - PY',chamado:"781693",data:"11/06/2026",cliente:"INPASA_PARAGUAI"},
+  {gestao:"Industrial",modulo:"Manutenção Industrial",id:34536,titulo:"WEB - Verificar falha ao listar relatório",chamado:"778778",data:"03/06/2026",cliente:"ARALCO"},
+  {gestao:"Tributária",modulo:"SPED",id:35637,titulo:"Dúvidas sobre alteração manual do LMC",chamado:"783375",data:"19/06/2026",cliente:"ATENA"},
+  {gestao:"Varejo",modulo:"Controle de Caixas",id:34093,titulo:"O campo COD_MOVIMENTO_ITEM está sendo gravado como NULL na tabela csintegracao",chamado:"778035",data:"27/05/2026",cliente:"COOPERVAL"},
+  {gestao:"Varejo",modulo:"Estoque e Compras",id:34574,titulo:"Material não integrou no autosystem",chamado:"780088",data:"03/06/2026",cliente:"INPASA"},
+];
+
+const gestaoColors = {
+  "Automotiva": {pill:"pill-auto", tag:"Automotiva", bg:"var(--tag-auto-bg)", color:"var(--tag-auto-text)"},
+  "Industrial":  {pill:"pill-ind",  tag:"Industrial",  bg:"var(--tag-ind-bg)",  color:"var(--tag-ind-text)"},
+  "Varejo":      {pill:"pill-var",  tag:"Varejo",      bg:"var(--tag-var-bg)",  color:"var(--tag-var-text)"},
+  "Tributária":  {pill:"pill-trib", tag:"Tributária",  bg:"var(--tag-trib-bg)", color:"var(--tag-trib-text)"},
+};
+
+function initials(name) {
+  return name.replace(/_/g,' ').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function fmtCliente(name) {
+  return name.replace(/_/g,' ');
+}
+
+// group by gestao > cliente
+const byGestao = {};
+raw.forEach(item => {
+  if (!byGestao[item.gestao]) byGestao[item.gestao] = {};
+  const g = byGestao[item.gestao];
+  if (!g[item.cliente]) g[item.cliente] = [];
+  g[item.cliente].push(item);
+});
+
+// stats
+const totalCards = raw.length;
+const allClients = new Set(raw.map(r=>r.cliente));
+const gestoes = Object.keys(byGestao);
+
+document.getElementById('total-cards').textContent = totalCards;
+document.getElementById('total-clients').textContent = allClients.size;
+document.getElementById('total-gestoes').textContent = gestoes.length;
+
+// pills
+const pillsEl = document.getElementById('summary-pills');
+gestoes.forEach(g => {
+  const cfg = gestaoColors[g] || {};
+  const count = raw.filter(r=>r.gestao===g).length;
+  const p = document.createElement('span');
+  p.className = 'pill ' + (cfg.pill||'');
+  p.textContent = `${g} (${count})`;
+  pillsEl.appendChild(p);
+});
+
+// date
+const now = new Date();
+document.getElementById('gen-date').textContent = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+
+// build content
+const main = document.getElementById('main-content');
+
+gestoes.forEach(gestao => {
+  const cfg = gestaoColors[gestao] || {};
+  const clients = byGestao[gestao];
+  const gestaoCount = raw.filter(r=>r.gestao===gestao).length;
+
+  const section = document.createElement('div');
+  section.className = 'section-block';
+
+  section.innerHTML = `
+    <div class="section-header">
+      <span class="section-tag" style="background:${cfg.bg};color:${cfg.color}">${cfg.tag||gestao}</span>
+      <span class="section-name">${gestao}</span>
+      <span class="section-rule"></span>
+      <span class="section-count">${gestaoCount} chamado${gestaoCount!==1?'s':''}</span>
+    </div>
+    <div class="client-grid" id="grid-${gestao.replace(/\s/g,'')}"></div>
+  `;
+  main.appendChild(section);
+
+  const grid = section.querySelector('.client-grid');
+
+  // sort clients by number of items desc
+  const sortedClients = Object.entries(clients).sort((a,b)=>b[1].length-a[1].length);
+
+  sortedClients.forEach(([cliente, items]) => {
+    const modulos = [...new Set(items.map(i=>i.modulo))].join(', ');
+    const card = document.createElement('div');
+    card.className = 'client-card';
+
+    const headerHtml = `
+      <div class="client-card-header">
+        <div class="client-avatar">${initials(cliente)}</div>
+        <div>
+          <div class="client-name">${fmtCliente(cliente)}</div>
+          <div class="client-modulo">${modulos}</div>
+        </div>
+        <div class="client-card-badge">${items.length}</div>
+      </div>
+    `;
+
+    const itemsHtml = items.map(item => `
+      <div class="item-row">
+        <div class="item-chamado">#${item.chamado}</div>
+        <div class="item-body">
+          <div class="item-title">${item.titulo}</div>
+          <div class="item-meta">
+            <span class="item-modulo">${item.modulo}</span>
+            <span class="item-dot"></span>
+            <span class="item-date">${item.data}</span>
+          </div>
+        </div>
+        <div class="item-id">${item.id}</div>
+      </div>
+    `).join('');
+
+    card.innerHTML = headerHtml + `<div class="item-list">${itemsHtml}</div>`;
+    grid.appendChild(card);
+  });
+});
+</script>
+</body>
+</html>
