@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fechamento de Projeto — Time PCM | Demais Clientes</title>
+<style>
+  :root{
+    --bg: #e9ebee;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --ink-soft: #5b6470;
+    --line: #dde1e6;
+    --navy: #16233d;
+    --navy-2: #223357;
+
+    --agropeu: #7a3b12;
+    --aralco: #1c4d63;
+    --biener: #4a3b7a;
+    --censo: #14603e;
+    --damata: #7a1f4a;
+    --ideal: #2b4d1f;
+    --laguna: #8a5a00;
+    --queiroz: #1f4a7a;
+    --raa: #6a2f2f;
+    --usl: #3b5c7a;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#f1f3f6;
+    margin-bottom:36px;
+    border-radius:0 0 18px 18px;
+    padding:52px 40px 40px;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:20px;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    padding-bottom:24px;
+    margin-bottom:24px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#b9c2cf;
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:32px;
+    margin:10px 0 6px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero .subtitle{
+    color:#c7ceda;
+    font-size:16px;
+    margin:0;
+  }
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{
+    min-width:120px;
+  }
+  .hero-meta .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#9aa5b5;
+    margin-bottom:4px;
+  }
+  .hero-meta .value{
+    font-size:16px;
+    font-weight:600;
+    color:#f4f6f8;
+  }
+
+  .stats-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .stat-box{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    padding:16px 22px;
+    flex:1;
+    min-width:150px;
+  }
+  .stat-box .num{
+    font-size:28px;
+    font-weight:700;
+    color:#ffffff;
+  }
+  .stat-box .cap{
+    font-size:12.5px;
+    color:#b9c2cf;
+    margin-top:2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:44px 0 16px;
+  }
+  .section-title .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .section-title h2{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+    color:var(--ink);
+  }
+  .section-title .count{
+    margin-left:auto;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3px 10px;
+    border-radius:20px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: 0 1px 2px rgba(20,25,35,0.04);
+  }
+
+  .item{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:18px;
+    padding:16px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+
+  .item .os{
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    padding-top:2px;
+  }
+
+  .item .desc{
+    font-size:14.5px;
+    color:var(--ink);
+  }
+
+  /* ---------- CATEGORY ACCENTS ---------- */
+  .cat-agropeu .dot{background:var(--agropeu);}
+  .cat-aralco .dot{background:var(--aralco);}
+  .cat-biener .dot{background:var(--biener);}
+  .cat-censo .dot{background:var(--censo);}
+  .cat-damata .dot{background:var(--damata);}
+  .cat-ideal .dot{background:var(--ideal);}
+  .cat-laguna .dot{background:var(--laguna);}
+  .cat-queiroz .dot{background:var(--queiroz);}
+  .cat-raa .dot{background:var(--raa);}
+  .cat-usl .dot{background:var(--usl);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:56px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .item{grid-template-columns:1fr;}
+    .hero{padding:36px 22px 28px;}
+    .hero h1{font-size:26px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    header.hero{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="brand">CS Compusoftware</div>
+        <h1>Fechamento de Projeto — Time PCM</h1>
+        <p class="subtitle">Demandas não planejadas</p>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="label">Product Owner</div>
+          <div class="value">Ivo</div>
+        </div>
+        <div>
+          <div class="label">Equipe</div>
+          <div class="value">Time PCM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="num">19</div>
+        <div class="cap">O.S. atendidas no período</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">10</div>
+        <div class="cap">Clientes atendidos</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- AGROPEU -->
+  <div class="section-title cat-agropeu">
+    <span class="dot"></span>
+    <h2>Agropeu</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">106843</div>
+      <div class="desc">Integração entre o CS e a ALS, empresa de análise de óleo.</div>
+    </div>
+  </div>
+
+  <!-- ARALCO -->
+  <div class="section-title cat-aralco">
+    <span class="dot"></span>
+    <h2>Aralco</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107116</div>
+      <div class="desc">Criação de job para integrar automaticamente os apontamentos de motomecanização vindos do App CS.</div>
+    </div>
+    <div class="item">
+      <div class="os">106996</div>
+      <div class="desc">Trazer a data inicial e a data final com base na data do Serviço de Programação.</div>
+    </div>
+  </div>
+
+  <!-- BIENER BIOMASSA -->
+  <div class="section-title cat-biener">
+    <span class="dot"></span>
+    <h2>Biener Biomassa</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107445</div>
+      <div class="desc">Migração do processo de lavagem de veículo.</div>
+    </div>
+  </div>
+
+  <!-- CENSO_NSO -->
+  <div class="section-title cat-censo">
+    <span class="dot"></span>
+    <h2>Censo NSO</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107354</div>
+      <div class="desc">Desenvolvimento de endpoint para consulta de veículos ativos.</div>
+    </div>
+    <div class="item">
+      <div class="os">107025</div>
+      <div class="desc">Alteração do tipo do campo "nº motor" para VARCHAR2(30), permitindo maior quantidade de caracteres.</div>
+    </div>
+  </div>
+
+  <!-- DAMATA -->
+  <div class="section-title cat-damata">
+    <span class="dot"></span>
+    <h2>Damata</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">106953</div>
+      <div class="desc">Inclusão do botão para visualizar inativos na tela de cadastro de tarefas; atualmente, uma tarefa nova nasce desativada quando o campo "ativo" não é marcado.</div>
+    </div>
+    <div class="item">
+      <div class="os">107091</div>
+      <div class="desc">Melhoria em Consultas &gt; Ordem de Serviço para que o filtro de GEF traga automaticamente o GEF do usuário logado.</div>
+    </div>
+    <div class="item">
+      <div class="os">107258</div>
+      <div class="desc">Adição do botão "Ficha de Material", já existente no Desktop, também na versão Web.</div>
+    </div>
+  </div>
+
+  <!-- GRUPO IDEAL -->
+  <div class="section-title cat-ideal">
+    <span class="dot"></span>
+    <h2>Grupo Ideal</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107329</div>
+      <div class="desc">Inclusão do km/h rodado/trabalhado do equipamento no relatório de Controle de Viagem.</div>
+    </div>
+  </div>
+
+  <!-- LAGUNA -->
+  <div class="section-title cat-laguna">
+    <span class="dot"></span>
+    <h2>Laguna</h2>
+    <span class="count">1 item</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">106012</div>
+      <div class="desc">Correção de divergência entre o relatório e o dashboard inicial do módulo de Pneus do CS 4.0.</div>
+    </div>
+  </div>
+
+  <!-- QUEIROZ -->
+  <div class="section-title cat-queiroz">
+    <span class="dot"></span>
+    <h2>Queiroz</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107264</div>
+      <div class="desc">Correção na tela de manutenção de pneu (opção conserto) no CS 4.0: campo para inserir ano e número da O.S. não estava sendo exibido.</div>
+    </div>
+    <div class="item">
+      <div class="os">107327</div>
+      <div class="desc">Inclusão do campo "Data Aquisição" na tela de cadastro de pneu (Controle de Pneus &gt; Manutenções &gt; Pneu).</div>
+    </div>
+    <div class="item">
+      <div class="os">107248</div>
+      <div class="desc">Melhorias na tela de cadastro do pneu: reordenação dos campos de Marca, Modelo e Medida para Marca, Medida e Modelo (como no cadastro da Marca), com filtro de Medida exibindo apenas os valores vinculados à Marca selecionada.</div>
+    </div>
+  </div>
+
+  <!-- USINA RAA -->
+  <div class="section-title cat-raa">
+    <span class="dot"></span>
+    <h2>Usina RAA</h2>
+    <span class="count">3 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">107333</div>
+      <div class="desc">Melhoria no apontamento das Ordens de Serviço.</div>
+    </div>
+    <div class="item">
+      <div class="os">107238</div>
+      <div class="desc">Melhoria na versão Web para que o duplo-clique abra diretamente a tela da ordem de serviço.</div>
+    </div>
+    <div class="item">
+      <div class="os">107316</div>
+      <div class="desc">Melhoria no filtro de materiais.</div>
+    </div>
+  </div>
+
+  <!-- USL -->
+  <div class="section-title cat-usl">
+    <span class="dot"></span>
+    <h2>USL</h2>
+    <span class="count">2 itens</span>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="os">106685</div>
+      <div class="desc">Inclusão de campo de TAG na tela de ordem de lubrificação.</div>
+    </div>
+    <div class="item">
+      <div class="os">106813</div>
+      <div class="desc">Inclusão da informação do material abastecido na tela 4907 - Altera KM do Abastecimento.</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>CS Compusoftware — Time PCM</span>
+    <span>PO: Ivo</span>
+  </footer>
+
+</div>
+</body>
+</html>
