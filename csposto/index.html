@@ -4,76 +4,107 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Guia de Suporte CS PDV</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-html,body{margin:0}
-/* Layout: sidebar index (sticky) + reading column; stacks on phone */
+/* Layout: navy top bar + dotted light-gray hero, navy sticky index beside a white reading column, navy footer */
 :root{
-  --bg:#f6f7f8; --surface:#ffffff; --fg:#1b2129; --muted:#5b6673; --line:#dde2e8;
-  --accent:#c2410c; --accent-soft:#fdeee5; --code-bg:#eef1f4; --warn-bg:#fff7e0; --warn-line:#e0b437;
-  --sans:"IBM Plex Sans",system-ui,"Segoe UI",Roboto,sans-serif;
+  --navy:#03313f; --navy-2:#0a4152; --ink:#0c3a4a; --red:#c50c15;
+  --bg:#eff1f3; --surface:#ffffff; --line:#d9dfe3; --muted:#5c6f78; --code-bg:#eef2f4; --red-soft:#fbeaeb;
+  --head:"Saira",system-ui,"Segoe UI",sans-serif; --body:"Saira",system-ui,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161b; --surface:#1a2027; --fg:#e4e8ed; --muted:#9aa5b1; --line:#2c3540;
-  --accent:#fb8a4c; --accent-soft:#3a2418; --code-bg:#222a33; --warn-bg:#2e2712; --warn-line:#a98a2a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#12161b; --surface:#1a2027; --fg:#e4e8ed; --muted:#9aa5b1; --line:#2c3540;
-  --accent:#fb8a4c; --accent-soft:#3a2418; --code-bg:#222a33; --warn-bg:#2e2712; --warn-line:#a98a2a; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
-.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;max-width:1240px;margin:0 auto;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:13.5px}
-nav .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600}
-nav a{display:block;color:var(--fg);text-decoration:none;padding:5px 10px;border-left:2px solid var(--line)}
-nav a:hover,nav a:focus-visible{border-left-color:var(--accent);color:var(--accent);outline:none}
-main{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:36px clamp(18px,4vw,52px)}
-main>*{max-width:76ch}
-main table,main pre{max-width:none}
-h1{font-size:30px;line-height:1.2;margin:0 0 12px;text-wrap:balance}
-h2{font-size:21px;margin:48px 0 12px;padding-top:20px;border-top:1px solid var(--line);text-wrap:balance;scroll-margin-top:16px}
-h3{font-size:16.5px;margin:28px 0 8px;scroll-margin-top:16px}
-h2 code,h3 code{font-size:.8em}
-a{color:var(--accent)}
-code{font-family:var(--mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:3px}
-pre{background:var(--code-bg);padding:16px;border-radius:5px;overflow-x:auto;font-size:12.5px;line-height:1.35}
-pre code{background:none;padding:0;font-size:inherit}
-.tbl{overflow-x:auto;margin:14px 0}
-table{border-collapse:collapse;font-size:13.5px;width:100%}
-th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--line)}
-th{font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6}
+a{color:var(--red)}
+.inner{max-width:1240px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.topbar{background:var(--navy);color:#fff}
+.topbar .inner{display:flex;align-items:center;gap:14px;padding-block:14px}
+.logo{width:44px;height:44px;border:2px solid #4fa3b8;border-radius:50%;display:grid;place-items:center;font-family:var(--head);font-weight:800;font-size:17px;color:#4fa3b8;letter-spacing:-.04em;flex:none}
+.brand{font-family:var(--head);font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#a9c6cf}
+.brand b{color:#fff;font-weight:700}
+.hero{background-color:var(--bg);background-image:radial-gradient(circle at 1px 1px,rgba(3,49,63,.13) 1px,transparent 0);background-size:22px 22px;border-bottom:1px solid var(--line)}
+.hero .inner{padding-block:40px 36px;display:grid;gap:18px}
+.hero h1{font-family:var(--head);font-weight:700;font-size:clamp(28px,4.2vw,42px);line-height:1.1;margin:0;color:var(--navy);text-wrap:balance}
+.hero h1 .accent{color:var(--red)}
+.hero .lead{margin:0;max-width:70ch;font-weight:300;font-size:16.5px}
+.legend{max-width:80ch;background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);padding:12px 16px;border-radius:4px;font-size:14.5px}
+.legend p{margin:0}
+.pillars{display:flex;flex-wrap:wrap;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-family:var(--head);font-weight:600;font-size:13px;padding:5px 14px 5px 5px;border-radius:999px}
+.pill i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-style:normal;font-size:12px}
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:36px;padding-block:32px 64px}
+nav{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;background:var(--navy);border-radius:6px;padding:16px 10px}
+nav .label{font-family:var(--head);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#7fb0bf;margin:0 8px 10px;font-weight:600}
+nav a{display:flex;gap:10px;align-items:center;color:#dce8ec;text-decoration:none;padding:7px 8px;border-radius:4px;font-size:14px;line-height:1.3}
+nav a .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--head);font-weight:700;font-size:12px}
+nav a:hover,nav a:focus-visible{background:var(--navy-2);color:#fff;outline:none}
+main{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px clamp(18px,4vw,48px) 40px}
+main>*{max-width:80ch}
+main>.tbl,main>pre{max-width:none}
+h2{font-family:var(--head);font-weight:700;font-size:24px;line-height:1.2;color:var(--navy);margin:44px 0 14px;padding-top:28px;border-top:1px solid var(--line);display:flex;gap:14px;align-items:center;text-wrap:balance;scroll-margin-top:16px}
+main>h2:first-child{border-top:0;margin-top:8px}
+h2 .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:19px}
+h2 code{font-size:.6em;color:var(--muted);font-weight:500}
+h3{font-family:var(--head);font-weight:700;font-size:18px;color:var(--navy);margin:28px 0 8px;scroll-margin-top:16px}
+strong{color:var(--navy);font-weight:700}
+code{font-family:var(--mono);font-size:.84em;background:var(--code-bg);color:var(--navy-2);padding:1px 5px;border-radius:3px}
+pre{background:var(--navy);color:#d6e6eb;padding:18px;border-radius:5px;overflow-x:auto;font-size:12.5px;line-height:1.35}
+pre code{background:none;color:inherit;padding:0;font-size:inherit}
+.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:5px}
+table{border-collapse:collapse;font-size:14px;width:100%}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+th{background:var(--navy);color:#fff;font-family:var(--head);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+th code{background:rgba(255,255,255,.12);color:#fff}
+tbody tr:nth-child(even) td{background:#f6f8f9}
 td{font-variant-numeric:tabular-nums}
-blockquote{margin:16px 0;padding:10px 16px;background:var(--warn-bg);border-left:3px solid var(--warn-line);border-radius:0 4px 4px 0}
+blockquote{margin:16px 0;padding:10px 16px;background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 4px 4px 0}
 blockquote p{margin:0}
 li{margin:3px 0}
+li::marker{color:var(--red)}
 hr{display:none}
-.meta{color:var(--muted);font-size:13px;margin-bottom:24px}
-@media (max-width:860px){.wrap{grid-template-columns:1fr;gap:20px}nav{position:static;max-height:none}}
+footer{background:var(--navy);color:#8fb2bd;font-size:13px}
+footer .inner{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:space-between;padding-block:24px}
+footer .f-left{display:flex;align-items:center;gap:14px}
+footer .small{text-transform:uppercase;letter-spacing:.06em;font-size:12px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:20px}nav{position:static;max-height:none}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
 </style>
 </head>
 <body>
-<div class="wrap">
+<header>
+  <div class="topbar"><div class="inner"><div class="logo">CS</div><div class="brand"><b>CompuSoftware</b> · Suporte</div></div></div>
+  <div class="hero"><div class="inner">
+    <h1>Guia de Suporte<br><span class="accent">CS PDV</span> (Posto de Combustível)</h1>
+    <p class="lead">Material de apoio para a equipe de suporte. Ele foi montado a partir dos fontes do diretório <strong>cspdv</strong> no JEDI VCS (última revisão de cada módulo, extraída em 19/11/2026).</p>
+    <div class="legend">
+<p>Legenda: <strong>(inferido)</strong> marca algo que o código não deixa explícito. Antes de afirmar isso a um cliente, confirme com o desenvolvimento.</p>
+</div>
+    <div class="pillars"><span class="pill"><i>1</i>CS PDV App</span><span class="pill"><i>2</i>PDV Sync</span><span class="pill"><i>3</i>Monitor</span><span class="pill"><i>4</i>API</span><span class="pill"><i>5</i>Concentrador</span><span class="pill"><i>6</i>Fiscal</span><span class="pill"><i>7</i>Integração</span></div>
+  </div></div>
+</header>
+<div class="inner wrap">
   <nav aria-label="Índice"><div class="label">Índice</div>
-<a href="#s0">0. Visão geral: como as peças se encaixam</a>
-<a href="#s1">1. CS PDV App : o caixa</a>
-<a href="#s2">2. CS PDV Sync : sincronizador &quot;tudo em um&quot;</a>
-<a href="#s3">3. CS Monitor : painel do suporte</a>
-<a href="#s4">Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</a>
-<a href="#s5">4. CS API : API para os SmartPOS</a>
-<a href="#s6">5. CS Concentrador : bombas Companytec</a>
-<a href="#s7">6. CS Fiscal : NF-e, NFC-e e NFS-e</a>
-<a href="#s8">7. CS Integração : retaguarda e releases</a>
-<a href="#s9">Checklist rápido de atendimento</a>
+<a href="#s0"><span class="n">0</span><span>Visão geral: como as peças se encaixam</span></a>
+<a href="#s1"><span class="n">1</span><span>CS PDV App: o caixa</span></a>
+<a href="#s2"><span class="n">2</span><span>CS PDV Sync: sincronizador &quot;tudo em um&quot;</span></a>
+<a href="#s3"><span class="n">3</span><span>CS Monitor: painel do suporte</span></a>
+<a href="#s4"><span class="n">•</span><span>Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</span></a>
+<a href="#s5"><span class="n">4</span><span>CS API: API para os SmartPOS</span></a>
+<a href="#s6"><span class="n">5</span><span>CS Concentrador: bombas Companytec</span></a>
+<a href="#s7"><span class="n">6</span><span>CS Fiscal: NF-e, NFC-e e NFS-e</span></a>
+<a href="#s8"><span class="n">7</span><span>CS Integração: retaguarda e releases</span></a>
+<a href="#s9"><span class="n">•</span><span>Checklist rápido de atendimento</span></a>
   </nav>
   <main>
-<h1>Guia de Suporte – CS PDV (Posto de Combustível)</h1>
-<p class="meta">Material de apoio para a equipe de suporte. Ele foi montado a partir dos fontes do diretório <strong>cspdv</strong> no JEDI VCS (última revisão de cada módulo, extraída em 19/11/2026).</p>
-<blockquote>
-<p>Legenda: <strong>(inferido)</strong> marca algo que o código não deixa explícito. Antes de afirmar isso a um cliente, confirme com o desenvolvimento.</p>
-</blockquote>
+
 <hr>
-<h2 id="s0">0. Visão geral: como as peças se encaixam</h2>
+<h2 id="s0"><span class="dot">0</span><span>Visão geral: como as peças se encaixam</span></h2>
 <p>O <code>cs_pdv.groupproj</code> agrupa 7 executáveis. Todos usam o <strong>mesmo banco PostgreSQL local do posto</strong> (banco <code>cspdv</code>, schema <code>app</code>). Os programas <strong>não conversam diretamente entre si</strong>: cada um grava e lê <strong>tabelas-fila</strong> no banco.</p>
 <pre><code>                 ┌──────────────── Retaguarda (backoffice, HTTP + OAuth) ───────────────┐
                  │                                                                      │
@@ -260,7 +291,7 @@ hr{display:none}
 </tr>
 </tbody></table></div>
 <hr>
-<h2 id="s1">1. CS PDV App (<code>cs_pdv_app</code>): o caixa</h2>
+<h2 id="s1"><span class="dot">1</span><span>CS PDV App (<code>cs_pdv_app</code>): o caixa</span></h2>
 <h3>O que é</h3>
 <p>É o programa do <strong>operador de caixa</strong>. Faz venda de combustível (bicos) e de loja/conveniência (produtos, serviços, mesas e comandas), recebimento em várias formas de pagamento, controle de caixa e o pedido de emissão fiscal.</p>
 <ul>
@@ -598,7 +629,7 @@ hr{display:none}
 <li><strong>TEF:</strong> <code>CSTEFApi.log</code> e <code>rettef.log</code> na pasta do exe. Com <code>DEBUG_TEF=S</code>, os comprovantes também ficam salvos em <code>.txt</code>.</li>
 </ul>
 <hr>
-<h2 id="s2">2. CS PDV Sync (<code>cs_pdv_sync</code>): sincronizador &quot;tudo em um&quot;</h2>
+<h2 id="s2"><span class="dot">2</span><span>CS PDV Sync (<code>cs_pdv_sync</code>): sincronizador &quot;tudo em um&quot;</span></h2>
 <h3>O que é</h3>
 <p>É um <strong>aplicativo com tela</strong> (não é serviço), com o título &quot;Sincronização CS PDV&quot;. Executa, em um único programa, todas as rotinas de fundo do posto: sincronização com a retaguarda, envio de movimento, emissão fiscal, leitura da concentradora, API dos POS e catálogo de releases.</p>
 <ul>
@@ -753,7 +784,7 @@ hr{display:none}
 <li><strong>XMLs fiscais:</strong> pastas <code>nfe\</code> e <code>nfc\</code> dentro da pasta do exe (<code>enviadas</code>, <code>eventos</code>, <code>inutilizacao</code>, <code>ocorrencias\&lt;CNPJ&gt;</code>).</li>
 </ol>
 <hr>
-<h2 id="s3">3. CS Monitor (<code>cs_monitor</code>): painel do suporte</h2>
+<h2 id="s3"><span class="dot">3</span><span>CS Monitor (<code>cs_monitor</code>): painel do suporte</span></h2>
 <h3>O que é</h3>
 <p>É o <strong>aplicativo do suporte</strong> para instalar, controlar e acompanhar os serviços CS_*. Ele não executa nenhuma rotina: pode ser aberto, fechado ou atualizado sem afetar o posto. Fica em <code>C:\cspdv\Monitor</code> (exemplo).</p>
 <ul>
@@ -815,7 +846,7 @@ hr{display:none}
 <li>Log &quot;arquivo não encontrado&quot;: o serviço ainda não gravou log hoje, ou <code>PASTA_BASE</code> está errada.</li>
 </ul>
 <hr>
-<h2 id="s4">Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</h2>
+<h2 id="s4"><span class="dot">•</span><span>Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</span></h2>
 <h3>Instalação e controle (linha de comando, como administrador)</h3>
 <div class="tbl"><table>
 <thead>
@@ -904,7 +935,7 @@ hr{display:none}
 </li>
 </ul>
 <hr>
-<h2 id="s5">4. CS API (<code>cs_svcapi</code>): API para os SmartPOS</h2>
+<h2 id="s5"><span class="dot">4</span><span>CS API (<code>cs_svcapi</code>): API para os SmartPOS</span></h2>
 <ul>
 <li><strong>Serviço Windows:</strong> <code>CS_API</code> (&quot;CS API&quot;). Pasta: <code>C:\cspdv\API</code>. <strong>Instale só na máquina principal.</strong></li>
 <li><strong>Configuração</strong> (<code>CS_SvcAPI.ini</code>):<ul>
@@ -976,7 +1007,7 @@ hr{display:none}
 <li>Timeout no cancelamento: verifique se o CS_Fiscal está rodando e se a thread EventosNF está ligada.</li>
 </ul>
 <hr>
-<h2 id="s6">5. CS Concentrador (<code>cs_svcconcentrador</code>): bombas Companytec</h2>
+<h2 id="s6"><span class="dot">5</span><span>CS Concentrador (<code>cs_svcconcentrador</code>): bombas Companytec</span></h2>
 <ul>
 <li><strong>Serviço Windows:</strong> uma instância por concentradora.<ul>
 <li><code>CONCENT_ID=1</code>: serviço <code>CS_Concentrador</code>, em <code>C:\cspdv\Concentrador</code>.</li>
@@ -1045,7 +1076,7 @@ hr{display:none}
 </tr>
 </tbody></table></div>
 <hr>
-<h2 id="s7">6. CS Fiscal (<code>cs_svcfiscal</code>): NF-e, NFC-e e NFS-e</h2>
+<h2 id="s7"><span class="dot">6</span><span>CS Fiscal (<code>cs_svcfiscal</code>): NF-e, NFC-e e NFS-e</span></h2>
 <ul>
 <li><strong>Serviço Windows:</strong> <code>CS_Fiscal</code> (&quot;CS Fiscal&quot;). Pasta: <code>C:\cspdv\Fiscal</code>. Para atualizar: pare o serviço, troque o exe e inicie de novo.</li>
 <li><strong>Configuração</strong> (<code>CS_SvcFiscal.ini</code>):<ul>
@@ -1154,7 +1185,7 @@ hr{display:none}
 </tbody></table></div>
 <p>Os erros também vão para <code>log_sincronizacao</code> (no Monitor, <em>Log no banco</em>, origem NF).</p>
 <hr>
-<h2 id="s8">7. CS Integração (<code>cs_svcintegracao</code>): retaguarda e releases</h2>
+<h2 id="s8"><span class="dot">7</span><span>CS Integração (<code>cs_svcintegracao</code>): retaguarda e releases</span></h2>
 <ul>
 <li><strong>Serviço Windows:</strong> <code>CS_Integracao</code> (&quot;CS Integracao&quot;). Uma falha aqui <strong>não impede venda nem emissão de nota</strong>: só atrasa cadastros e o envio do movimento.</li>
 <li><strong>Configuração:</strong><ul>
@@ -1241,7 +1272,7 @@ hr{display:none}
 </tr>
 </tbody></table></div>
 <hr>
-<h2 id="s9">Checklist rápido de atendimento</h2>
+<h2 id="s9"><span class="dot">•</span><span>Checklist rápido de atendimento</span></h2>
 <ol>
 <li><p><strong>Abra o CS Monitor › Serviços.</strong> Todos os serviços devem estar &quot;Rodando&quot;, com <strong>Sinal</strong> abaixo de 60 s.</p>
 </li>
@@ -1289,5 +1320,6 @@ hr{display:none}
 
   </main>
 </div>
+<footer><div class="inner"><div class="f-left"><div class="logo">CS</div><span>CompuSoftware · Guia de Suporte CS PDV</span></div><span class="small">Uso interno · Equipe de suporte</span></div></footer>
 </body>
 </html>
