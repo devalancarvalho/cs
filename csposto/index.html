@@ -1,0 +1,1293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia de Suporte CS PDV</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html,body{margin:0}
+/* Layout: sidebar index (sticky) + reading column; stacks on phone */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --fg:#1b2129; --muted:#5b6673; --line:#dde2e8;
+  --accent:#c2410c; --accent-soft:#fdeee5; --code-bg:#eef1f4; --warn-bg:#fff7e0; --warn-line:#e0b437;
+  --sans:"IBM Plex Sans",system-ui,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161b; --surface:#1a2027; --fg:#e4e8ed; --muted:#9aa5b1; --line:#2c3540;
+  --accent:#fb8a4c; --accent-soft:#3a2418; --code-bg:#222a33; --warn-bg:#2e2712; --warn-line:#a98a2a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161b; --surface:#1a2027; --fg:#e4e8ed; --muted:#9aa5b1; --line:#2c3540;
+  --accent:#fb8a4c; --accent-soft:#3a2418; --code-bg:#222a33; --warn-bg:#2e2712; --warn-line:#a98a2a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;max-width:1240px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:13.5px}
+nav .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600}
+nav a{display:block;color:var(--fg);text-decoration:none;padding:5px 10px;border-left:2px solid var(--line)}
+nav a:hover,nav a:focus-visible{border-left-color:var(--accent);color:var(--accent);outline:none}
+main{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:36px clamp(18px,4vw,52px)}
+main>*{max-width:76ch}
+main table,main pre{max-width:none}
+h1{font-size:30px;line-height:1.2;margin:0 0 12px;text-wrap:balance}
+h2{font-size:21px;margin:48px 0 12px;padding-top:20px;border-top:1px solid var(--line);text-wrap:balance;scroll-margin-top:16px}
+h3{font-size:16.5px;margin:28px 0 8px;scroll-margin-top:16px}
+h2 code,h3 code{font-size:.8em}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:3px}
+pre{background:var(--code-bg);padding:16px;border-radius:5px;overflow-x:auto;font-size:12.5px;line-height:1.35}
+pre code{background:none;padding:0;font-size:inherit}
+.tbl{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;font-size:13.5px;width:100%}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+td{font-variant-numeric:tabular-nums}
+blockquote{margin:16px 0;padding:10px 16px;background:var(--warn-bg);border-left:3px solid var(--warn-line);border-radius:0 4px 4px 0}
+blockquote p{margin:0}
+li{margin:3px 0}
+hr{display:none}
+.meta{color:var(--muted);font-size:13px;margin-bottom:24px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;gap:20px}nav{position:static;max-height:none}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Índice"><div class="label">Índice</div>
+<a href="#s0">0. Visão geral: como as peças se encaixam</a>
+<a href="#s1">1. CS PDV App : o caixa</a>
+<a href="#s2">2. CS PDV Sync : sincronizador &quot;tudo em um&quot;</a>
+<a href="#s3">3. CS Monitor : painel do suporte</a>
+<a href="#s4">Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</a>
+<a href="#s5">4. CS API : API para os SmartPOS</a>
+<a href="#s6">5. CS Concentrador : bombas Companytec</a>
+<a href="#s7">6. CS Fiscal : NF-e, NFC-e e NFS-e</a>
+<a href="#s8">7. CS Integração : retaguarda e releases</a>
+<a href="#s9">Checklist rápido de atendimento</a>
+  </nav>
+  <main>
+<h1>Guia de Suporte – CS PDV (Posto de Combustível)</h1>
+<p class="meta">Material de apoio para a equipe de suporte. Ele foi montado a partir dos fontes do diretório <strong>cspdv</strong> no JEDI VCS (última revisão de cada módulo, extraída em 19/11/2026).</p>
+<blockquote>
+<p>Legenda: <strong>(inferido)</strong> marca algo que o código não deixa explícito. Antes de afirmar isso a um cliente, confirme com o desenvolvimento.</p>
+</blockquote>
+<hr>
+<h2 id="s0">0. Visão geral: como as peças se encaixam</h2>
+<p>O <code>cs_pdv.groupproj</code> agrupa 7 executáveis. Todos usam o <strong>mesmo banco PostgreSQL local do posto</strong> (banco <code>cspdv</code>, schema <code>app</code>). Os programas <strong>não conversam diretamente entre si</strong>: cada um grava e lê <strong>tabelas-fila</strong> no banco.</p>
+<pre><code>                 ┌──────────────── Retaguarda (backoffice, HTTP + OAuth) ───────────────┐
+                 │                                                                      │
+          cadastros ↓                                                     vendas/movimento ↑
+                 │                                                                      │
+ ┌───────────────┴──────────────┐      app.integracao_pdv       ┌───────────────────────┴───┐
+ │ CS_Integracao (serviço)      │ ───────────────────────────── │  (ou threads do PDV Sync) │
+ └──────────────────────────────┘                               └───────────────────────────┘
+                                   ┌──────────────────────────┐
+ Concentradora Companytec ◄──────► │ CS_Concentrador (serviço)│ ──► bico_status / tmp_bico_status
+                                   └──────────────────────────┘
+                                   ┌──────────────────────────┐
+ SEFAZ / Prefeitura      ◄──────►  │ CS_Fiscal (serviço)      │ ◄── tmp_nf_integrador (fila fiscal)
+                                   └──────────────────────────┘
+                                   ┌──────────────────────────┐
+ POS / SmartPOS          ◄──────►  │ CS_API (serviço HTTP)    │ ──► venda, tmp_nf_integrador
+                                   └──────────────────────────┘
+                                   ┌──────────────────────────┐
+ Operador de caixa       ◄──────►  │ CS PDV App (tela)        │ ──► venda, tmp_nf_integrador
+                                   └──────────────────────────┘
+                                   ┌──────────────────────────┐
+ Suporte                 ◄──────►  │ CS Monitor (tela)        │ controla e vigia os serviços
+                                   └──────────────────────────┘
+</code></pre>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Projeto</th>
+<th>Executável</th>
+<th>Tipo</th>
+<th>Papel em uma frase</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>App</td>
+<td><code>CS_PDV_App.exe</code></td>
+<td>Aplicativo com tela</td>
+<td>O caixa: vendas, pagamentos, caixa, emissão (via fila)</td>
+</tr>
+<tr>
+<td>Sync</td>
+<td><code>CS_PDV_Sync.exe</code></td>
+<td>Aplicativo com tela (bandeja)</td>
+<td>&quot;Tudo em um&quot;: faz o trabalho dos 4 serviços em um único programa</td>
+</tr>
+<tr>
+<td>Monitor</td>
+<td><code>CS_Monitor.exe</code></td>
+<td>Aplicativo com tela</td>
+<td>Painel do suporte para instalar, iniciar, parar e vigiar os serviços e ler os logs</td>
+</tr>
+<tr>
+<td>Serviços\API</td>
+<td><code>CS_SvcAPI.exe</code></td>
+<td>Serviço Windows <strong>CS_API</strong></td>
+<td>API HTTP/HTTPS para os POS SmartPOS</td>
+</tr>
+<tr>
+<td>Serviços\Concentrador</td>
+<td><code>CS_SvcConcentrador.exe</code></td>
+<td>Serviço Windows <strong>CS_Concentrador[_N]</strong></td>
+<td>Lê a concentradora de bombas Companytec</td>
+</tr>
+<tr>
+<td>Serviços\Fiscal</td>
+<td><code>CS_SvcFiscal.exe</code></td>
+<td>Serviço Windows <strong>CS_Fiscal</strong></td>
+<td>Emite NF-e, NFC-e e NFS-e e cuida da contingência</td>
+</tr>
+<tr>
+<td>Serviços\Integracao</td>
+<td><code>CS_SvcIntegracao.exe</code></td>
+<td>Serviço Windows <strong>CS_Integracao</strong></td>
+<td>Sincroniza com a retaguarda (cadastros e movimento) e releases</td>
+</tr>
+</tbody></table></div>
+<h3>Regra de ouro: Sync × Serviços</h3>
+<p>O <strong>PDV Sync</strong> e os <strong>serviços CS_</strong>* contêm <strong>as mesmas rotinas (threads)</strong>. Os serviços são a forma nova e separada de rodar cada rotina. Os dois podem coexistir na mesma máquina, <strong>mas cada rotina deve estar ligada em um lugar só</strong>. Duas instâncias consumindo a mesma fila geram conflito: nota processada duas vezes, bicos &quot;brigando&quot; etc.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Rotina</th>
+<th>No Sync (<code>CS_PDV_Sync.ini</code>, seção <code>[CS_PDV_SYNC.THREADS]</code>)</th>
+<th>No serviço</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Emissão NF/NFC-e + contingência</td>
+<td><code>ATIVA_NF</code></td>
+<td>CS_Fiscal</td>
+</tr>
+<tr>
+<td>NFS-e</td>
+<td><code>ATIVA_NFS</code></td>
+<td>CS_Fiscal</td>
+</tr>
+<tr>
+<td>Concentradora</td>
+<td><code>ATIVA_CONCENTRADORA</code></td>
+<td>CS_Concentrador</td>
+</tr>
+<tr>
+<td>Sincronização (retaguarda → PDV)</td>
+<td><code>ATIVA_SINCRONIZACAO</code></td>
+<td>CS_Integracao</td>
+</tr>
+<tr>
+<td>Movimento (PDV → retaguarda)</td>
+<td><code>ATIVA_MOVIMENTACAO</code></td>
+<td>CS_Integracao</td>
+</tr>
+<tr>
+<td>Release</td>
+<td><code>ATIVA_RELEASE</code></td>
+<td>CS_Integracao</td>
+</tr>
+<tr>
+<td>API dos POS</td>
+<td><code>[CS_PDV_SYNC.WEBMODULE] ATIVA_WEBMODULE</code></td>
+<td>CS_API</td>
+</tr>
+</tbody></table></div>
+<p>Exemplo: com o <strong>CS_Fiscal</strong> ativo, o <code>CS_PDV_Sync.ini</code> tem de estar com <code>ATIVA_NF=N</code> e <code>ATIVA_NFS=N</code> (regra escrita no próprio fonte do serviço fiscal).</p>
+<h3>Itens comuns a todos os programas</h3>
+<ul>
+<li><strong>Banco:</strong> PostgreSQL. O driver <code>libpq.dll</code> fica na pasta <strong><code>..\PgLib</code></strong> (uma pasta acima do exe, por exemplo <code>C:\cspdv\PgLib</code>). Se ela faltar, aparece &quot;Driver PostgreSQL não encontrado / libpq.dll não encontrada&quot;.</li>
+<li><strong>INI:</strong> fica na pasta do exe, com o mesmo nome do exe (<code>CS_PDV_App.ini</code>, <code>CS_SvcFiscal.ini</code>...).</li>
+<li><strong>Senhas no INI:</strong> na primeira leitura, <code>USERNAME</code>, <code>PASSWORD</code> e chaves com SENHA/TOKEN/SECRET/KEY são <strong>criptografadas automaticamente</strong> (prefixo <code>ENC:</code>, criptografia da própria máquina).<ul>
+<li>Um INI <strong>não pode ser copiado para outra máquina</strong>: os valores <code>ENC:</code> precisam ser digitados de novo em texto puro.</li>
+<li>Na <strong>mesma</strong> máquina, um valor <code>ENC:</code> pode ser copiado de um INI para outro (por exemplo, do Sync para um serviço).</li>
+</ul>
+</li>
+<li><strong>Log de exceções:</strong> <code>&lt;pasta do exe&gt;\logs\&lt;NomeDoExe&gt;_AAAA-MM-DD.log</code>. Se a pasta não aceitar gravação, o log vai para <code>%LOCALAPPDATA%\CS_PDV\logs</code> (aplicativos) ou <code>%ProgramData%\CS_PDV\logs</code> (serviços).</li>
+<li><strong>Identificar conexões no banco:</strong> cada programa aparece com seu nome em <code>application_name</code> no <code>pg_stat_activity</code> (o PDV aparece como <code>CS_PDV_App - &lt;usuário&gt;</code>). Isso ajuda a achar locks.</li>
+</ul>
+<h3>Filas principais (onde olhar no banco)</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Tabela</th>
+<th>Para que serve</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tmp_nf_integrador</code></td>
+<td>Pedidos fiscais (emitir, cancelar, carta de correção, consultar, inutilizar)</td>
+<td>1 = na fila · 2 = processando · 3 = concluído · 4 = erro</td>
+</tr>
+<tr>
+<td><code>venda_nf</code> / <code>venda_nf_log</code> / <code>venda_nf_evento</code></td>
+<td>Resultado fiscal: XML, protocolo e mensagem de rejeição em <code>venda_nf_log.retorno</code></td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>app.integracao_pdv</code></td>
+<td>Eventos recebidos da retaguarda (cadastros)</td>
+<td>pendente · reagendado · aplicado · <strong>bloqueado</strong> (<code>pendente_erro=&#39;S&#39;</code>) · descartado</td>
+</tr>
+<tr>
+<td><code>integracao_pos</code></td>
+<td>Vendas recebidas dos SmartPOS</td>
+<td><code>PROCESSADO</code>, <code>ERRO</code></td>
+</tr>
+<tr>
+<td><code>bico_status</code> / <code>app.tmp_bico_status</code></td>
+<td>Abastecimentos lidos da bomba / status ao vivo dos bicos</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>log_sincronizacao</code></td>
+<td>Erros das rotinas de fundo (origem: 1 Sync, 2 Mov, 3 NF, 4 NFS, 5 Conc, 6 API, 7 Mon, 8 Release)</td>
+<td>tipo <code>E</code> = erro</td>
+</tr>
+<tr>
+<td><code>log_abastecimento</code></td>
+<td>Ocorrências de leitura da bomba e de troca de preço</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>app.servico_thread_status</code></td>
+<td>Status de cada serviço/thread (usado pelo Monitor)</td>
+<td>P/I/R/E/X/D</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="s1">1. CS PDV App (<code>cs_pdv_app</code>): o caixa</h2>
+<h3>O que é</h3>
+<p>É o programa do <strong>operador de caixa</strong>. Faz venda de combustível (bicos) e de loja/conveniência (produtos, serviços, mesas e comandas), recebimento em várias formas de pagamento, controle de caixa e o pedido de emissão fiscal.</p>
+<ul>
+<li>Roda no <strong>computador do caixa</strong>. Só uma instância por máquina (&quot;CS PDV App já está em execução&quot;).</li>
+<li><strong>Não fala com a bomba nem com a SEFAZ diretamente</strong>: lê os abastecimentos de <code>bico_status</code> e pede a nota pela fila <code>tmp_nf_integrador</code>.</li>
+</ul>
+<h3>Identificação do computador (importante)</h3>
+<p>O PDV reconhece a máquina por um <strong>identificador de hardware</strong>: hash de CPU, serial do disco, serial da BIOS e nome do computador. Esse valor fica gravado em <code>ponto_venda.mac_terminal</code>.
+➜ <strong>Se o cliente trocar disco, placa-mãe ou nome do computador, aparece &quot;PDV não cadastrado&quot;.</strong> Para resolver, entre com um usuário ADMIN em <em>ADMIN › Cadastro PDV</em> e vincule o computador de novo.</p>
+<h3>Configuração (<code>CS_PDV_App.ini</code>)</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Seção</th>
+<th>Chaves</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[CS_PDV.DATABASE]</code></td>
+<td><code>HOST</code>, <code>PORT</code>, <code>DB</code> (padrão <code>cspdv</code>), <code>USERNAME</code>, <code>PASSWORD</code></td>
+</tr>
+<tr>
+<td><code>[CS_PDV.TEF]</code></td>
+<td><code>DEBUG_TEF</code>, <code>ARQUIVO_IMPRESSAO</code>, <code>RAZAOSOCIAL_TEF</code>, <code>CNPJ_TEF</code>, <code>PORTA_PINPAD</code> (homologação/diagnóstico de TEF)</td>
+</tr>
+<tr>
+<td><code>[CS_PDV.POSTO_PRINCIPAL]</code></td>
+<td><code>FRAME_VENDAS_VISIVEL</code> (layout)</td>
+</tr>
+<tr>
+<td><code>[CS_PDV.TESTE]</code></td>
+<td><code>USAR_ID_MAQUINA_OVERRIDE</code>, <code>ID_MAQUINA_OVERRIDE</code>: <strong>somente testes</strong>, nunca em cliente</td>
+</tr>
+</tbody></table></div>
+<p>O restante da configuração fica no banco: <code>parametros</code>, <code>ponto_venda</code>, <code>gef_instancia</code>, <code>caixa_tipo_valor</code>, <code>app.parametros_api_retaguarda</code>, <code>app.trocopay_parametro</code>.</p>
+<h3>Níveis de acesso</h3>
+<p>1 = usuário · 10 = supervisor · 98 = administrador · 99 = master (vê host e banco na barra de status). O menu ADMIN aparece a partir do nível 98.</p>
+<h3>Fluxo do operador</h3>
+<ol>
+<li><p><strong>Login.</strong></p>
+<ul>
+<li>Usuário e senha da tabela <code>usuario</code>.</li>
+<li>Se o usuário estiver marcado para trocar a senha, o sistema pede uma senha nova e envia para a retaguarda.</li>
+<li>Em seguida o PDV procura o ponto de venda pelo identificador da máquina.</li>
+<li>Se não houver GEF (grupo/empresa/filial) em <code>gef_instancia</code>, abre <em>Parâmetros Gerais › GEF Instância</em>.</li>
+</ul>
+</li>
+<li><p><strong>Abrir caixa</strong> (<em>Processos › Caixa (Abrir/Fechar)</em>).</p>
+<ul>
+<li>O operador informa data e valor de abertura.</li>
+<li><strong>Não é permitido abrir caixa com o usuário ADMIN.</strong></li>
+</ul>
+</li>
+<li><p><strong>Venda.</strong></p>
+<ul>
+<li><strong>F2</strong> abre uma venda nova.</li>
+<li>Para incluir <strong>abastecimento</strong>, clique no bico ou digite <code>B3</code>. Aparece a lista de abastecimentos pendentes, com o frentista identificado pela tag RFID.<ul>
+<li><strong>F1</strong> inclui o abastecimento inteiro; <strong>F7</strong> inclui só uma parte (por litros ou valor).</li>
+<li>Abastecimento de dia anterior pede autorização.</li>
+</ul>
+</li>
+<li><strong>Produtos:</strong> <code>P123</code>, <code>S123</code> (serviço), <code>2*P123</code> (quantidade), <code>PDescrição</code> ou leitor de código de barras.</li>
+<li><strong>Cliente:</strong> <code>C</code>, <code>C123</code> ou <code>C</code> + CPF/CNPJ. Só é aceito depois do primeiro item.</li>
+<li><strong>Mesa / comanda:</strong> <code>M5</code> / <code>D12</code>.</li>
+<li><strong>Informações da venda:</strong> <strong>F6</strong> ou <code>I</code>. Placa, KM, motorista, vendedor.</li>
+<li>Vendas abertas há mais de <code>ponto_venda.minutos_venda_aberta</code> minutos são <strong>canceladas automaticamente</strong>.</li>
+</ul>
+</li>
+<li><p><strong>Pagamento (F4).</strong> As formas vêm de <em>Tipos de Pagamento</em> (<code>caixa_tipo_valor</code>). O comportamento depende do tipo:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Dinheiro</td>
+</tr>
+<tr>
+<td>2, 3, 4, 10</td>
+<td>Cartão via TEF</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Carteira/crédito do cliente (valida limite)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cheque</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Carta-frete</td>
+</tr>
+<tr>
+<td>9</td>
+<td>POS / SmartPOS</td>
+</tr>
+<tr>
+<td>11</td>
+<td>PIX estático</td>
+</tr>
+<tr>
+<td>107</td>
+<td>Uso e consumo (sozinho)</td>
+</tr>
+<tr>
+<td>500 / 501</td>
+<td>Perda / Aferição</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>TEF:</strong> PinPad via ACBr. O fornecedor sai de <code>gef_instancia.tef_house</code>: <strong>1 = PayGo Web, 2 = SiTef</strong>. O ponto precisa ter <code>usa_tef=&#39;S&#39;</code>, a porta do PinPad e a adquirente configuradas.</li>
+<li><strong>Troco:</strong> em dinheiro, cheque-troco ou <strong>TrocoPay</strong> (troco digital da RodoBank, com divisão entre cliente e motorista e vale-brinde). A configuração e a alçada ficam em <em>ADMIN › RodoBank</em>.</li>
+<li>Formas marcadas com senha e o desconto manual podem exigir <strong>autorização de supervisor</strong>, registrada em <code>LOG_AUTORIZACAO_TELA</code>.</li>
+</ul>
+</li>
+<li><p><strong>Nota fiscal.</strong></p>
+<ul>
+<li>O operador escolhe NFC-e (65) ou NF-e (55).</li>
+<li>O PDV grava o pedido em <code>tmp_nf_integrador</code> e aguarda o retorno, mostrando &quot;Aguardando autorização fiscal&quot;.</li>
+<li><strong>F11 – Emitir depois</strong> libera o caixa sem esperar.</li>
+<li>Quem transmite é o <strong>CS_Fiscal</strong> (ou o Sync com <code>ATIVA_NF=S</code>).</li>
+<li>Parâmetros que interferem: <code>valor_maximo_nfce</code>, <code>valor_exige_cpf</code>, <code>permite_cupom_cnpj</code>, <code>forma_solicitar_cpf</code>.</li>
+</ul>
+</li>
+<li><p><strong>Sangria, reforço e vale</strong> (<em>Processos</em>).</p>
+<ul>
+<li>Sangria e reforço usam os tipos 98, 100 e 101. O vale usa o tipo 104 e exige cliente, autorização e limite.</li>
+<li><strong>Sangria obrigatória:</strong> se <code>ponto_venda.limite_sangria_dinheiro &gt; 0</code> e o dinheiro em caixa passar do limite, <strong>novas vendas ficam bloqueadas</strong> até que seja feita uma sangria.</li>
+<li>O bloqueio também acontece se a verificação ficar &quot;indisponível&quot;: banco instável ou <strong>mais de um caixa aberto no mesmo ponto</strong>.</li>
+</ul>
+</li>
+<li><p><strong>Fechar caixa.</strong></p>
+<ul>
+<li>Antes de fechar, o sistema mostra alertas: vendas sem pagamento, vendas sem NF e abastecimentos travados.</li>
+<li>O operador informa o troco final. O sistema pede confirmação se houver sobra ou falta e imprime o resumo.</li>
+<li><strong>Não é permitido fechar com o usuário ADMIN.</strong></li>
+</ul>
+</li>
+</ol>
+<h3>Telas</h3>
+<ul>
+<li><strong>ADMIN:</strong><ul>
+<li>Cadastro PDV: vínculo do computador, finalidade, GEF, impressoras, TEF/PinPad, SmartPOS, limites.</li>
+<li>Configurações Gerais.</li>
+<li>Integração Retaguarda: fila <code>integracao_pdv</code>.</li>
+<li>Integração POS: fila <code>integracao_pos</code>, com reprocessar e cancelar.</li>
+<li>Atualizações: releases de banco.</li>
+<li>RodoBank.</li>
+</ul>
+</li>
+<li><strong>Processos:</strong><ul>
+<li>Caixa.</li>
+<li>Sangria/Reforço.</li>
+<li>Vale.</li>
+<li>Medição de Tanque (inclui leitor TLS-450).</li>
+<li>Painel Cliente (segundo monitor).</li>
+<li>Configurações TEF.</li>
+<li>Pré-cadastro de cliente.</li>
+<li>TrocoPay: consulta e cancelamento.</li>
+</ul>
+</li>
+<li><strong>Consultas e cadastros:</strong><ul>
+<li>Usuários, Clientes, Crédito de Cliente e Produtos/Preços.</li>
+<li>Movimento de Abastecimentos, Movimento do Caixa e Lançamentos.</li>
+<li>Log de Abastecimento, Carta-frete e Cheque.</li>
+<li><strong>Vendas:</strong> reimpressão, cancelamento, carta de correção, reenvio de NF, e-mail do XML.</li>
+<li>Tanques, Bombas/Bicos e Alteração de Preço de Bico.</li>
+<li>Mesas/Comandas, Contas a Receber e Tipos de Pagamento.</li>
+<li>Abastecimento Travado e Abastecimento Pendente.</li>
+</ul>
+</li>
+</ul>
+<h3>Atalhos</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Tecla</th>
+<th>Ação</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>F2</td>
+<td>Nova venda</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>Excluir item (pode pedir senha)</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>Pagamento</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Atualizar</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>Informações da venda</td>
+</tr>
+<tr>
+<td>F7</td>
+<td>Abastecimento parcial</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Emitir/imprimir depois</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Fechar painel / sair</td>
+</tr>
+<tr>
+<td>F1</td>
+<td>Confirmar (em listas)</td>
+</tr>
+<tr>
+<td>Ctrl+F1</td>
+<td>Consulta de vendas</td>
+</tr>
+<tr>
+<td>Ctrl+F2</td>
+<td>Bicos</td>
+</tr>
+<tr>
+<td>Ctrl+F3</td>
+<td>Mesas</td>
+</tr>
+<tr>
+<td>Ctrl+F4</td>
+<td><strong>Sincronizar com a retaguarda</strong></td>
+</tr>
+</tbody></table></div>
+<p>Comandos digitados: <code>P</code> produto · <code>S</code> serviço · <code>C</code> cliente · <code>B</code> bico · <code>M</code> mesa · <code>D</code> comanda · <code>I</code> informações · <code>n*</code> quantidade. <strong>Enter</strong> executa e <strong>Esc</strong> cancela.</p>
+<h3>Erros comuns</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Mensagem</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;CS PDV App já está em execução&quot;</td>
+<td>Processo anterior preso: encerre no Gerenciador de Tarefas</td>
+</tr>
+<tr>
+<td>&quot;É necessário informar os parâmetros de conexão…&quot;</td>
+<td>Preencha <code>[CS_PDV.DATABASE]</code> no INI</td>
+</tr>
+<tr>
+<td>&quot;libpq.dll não encontrada&quot; / &quot;driver PostgreSQL&quot;</td>
+<td>A pasta <code>..\PgLib</code> não existe</td>
+</tr>
+<tr>
+<td>&quot;A comunicação com o sistema foi interrompida…&quot;</td>
+<td>O PostgreSQL caiu ou a rede caiu. O PDV tenta reconectar a cada 3 s</td>
+</tr>
+<tr>
+<td>&quot;Usuário não encontrado&quot; / &quot;Senha incorreta&quot;</td>
+<td>O usuário não foi sincronizado: rode Ctrl+F4 ou confira a tabela <code>usuario</code></td>
+</tr>
+<tr>
+<td><strong>&quot;PDV não cadastrado&quot;</strong></td>
+<td>Mudou hardware ou nome do computador: vincule de novo em Cadastro PDV</td>
+</tr>
+<tr>
+<td>&quot;GEF não cadastrada&quot;</td>
+<td>Cadastre a GEF em Parâmetros</td>
+</tr>
+<tr>
+<td>&quot;Usuário sem operação de caixa/venda&quot;</td>
+<td>O operador está usando ADMIN: entre com um usuário operacional</td>
+</tr>
+<tr>
+<td>&quot;Caixa fechado&quot;</td>
+<td>Abra o caixa</td>
+</tr>
+<tr>
+<td>&quot;Sangria obrigatória…&quot;</td>
+<td>Faça a sangria. Se aparecer &quot;indisponível&quot;: verifique o banco e se há dois caixas abertos no mesmo ponto</td>
+</tr>
+<tr>
+<td>&quot;Não há abastecimento disponível para o bico&quot;</td>
+<td>O serviço Concentrador (ou o Sync) não está gravando: veja o Monitor</td>
+</tr>
+<tr>
+<td>&quot;TEF não habilitado&quot;</td>
+<td><code>ponto_venda.usa_tef</code>, a marcação TEF da forma de pagamento e <code>gef_instancia.tef_house</code></td>
+</tr>
+<tr>
+<td>&quot;PinPad não encontrado&quot;</td>
+<td>Cabo, porta COM e <code>porta_pinpad</code></td>
+</tr>
+<tr>
+<td><strong>&quot;Há uma autorização TEF aguardando gravação…&quot;</strong></td>
+<td>O cartão foi aprovado na adquirente mas não gravou no PDV. <strong>Não cobre de novo.</strong> Retome a mesma venda, com a mesma forma e o mesmo valor, e confira na adquirente</td>
+</tr>
+<tr>
+<td>&quot;Operação fiscal em andamento… aguardando a SEFAZ&quot;</td>
+<td>O pedido está parado na fila: verifique se o <strong>CS_Fiscal</strong> está rodando</td>
+</tr>
+<tr>
+<td>&quot;Emissão fiscal não concluída&quot;</td>
+<td>Leia a rejeição em <code>venda_nf_log.retorno</code> (NCM, cliente, certificado…)</td>
+</tr>
+<tr>
+<td>&quot;Impressora não configurada&quot;</td>
+<td>Porta da impressora em Cadastro PDV</td>
+</tr>
+<tr>
+<td>&quot;Limite de crédito…&quot;</td>
+<td>Saldo do cliente ou função <code>fn_verifica_limite_credito</code></td>
+</tr>
+<tr>
+<td>&quot;Configuração da API de retaguarda não cadastrada / mais de uma&quot;</td>
+<td>A tabela <code>app.parametros_api_retaguarda</code> precisa ter <strong>exatamente 1 linha</strong></td>
+</tr>
+<tr>
+<td>&quot;Instância do PDV não configurada&quot;</td>
+<td><code>parametros.instancia</code> está vazia</td>
+</tr>
+<tr>
+<td>&quot;Produto não encontrado / Preço não informado / Estoque insuficiente&quot;</td>
+<td>Produto não sincronizado: rode Ctrl+F4</td>
+</tr>
+</tbody></table></div>
+<h3>Logs</h3>
+<ul>
+<li><code>logs\CS_PDV_App_AAAA-MM-DD.log</code>: exceções, mantidas por 30 dias. O campo <strong>Mensagem usuário</strong> traz o que apareceu na tela; as linhas <strong>FireDAC[n]</strong> trazem o erro original do PostgreSQL.</li>
+<li><strong>TEF:</strong> <code>CSTEFApi.log</code> e <code>rettef.log</code> na pasta do exe. Com <code>DEBUG_TEF=S</code>, os comprovantes também ficam salvos em <code>.txt</code>.</li>
+</ul>
+<hr>
+<h2 id="s2">2. CS PDV Sync (<code>cs_pdv_sync</code>): sincronizador &quot;tudo em um&quot;</h2>
+<h3>O que é</h3>
+<p>É um <strong>aplicativo com tela</strong> (não é serviço), com o título &quot;Sincronização CS PDV&quot;. Executa, em um único programa, todas as rotinas de fundo do posto: sincronização com a retaguarda, envio de movimento, emissão fiscal, leitura da concentradora, API dos POS e catálogo de releases.</p>
+<ul>
+<li><strong>Minimizar</strong> manda o programa para a bandeja. <strong>Fechar (X) encerra o programa e para todas as rotinas.</strong></li>
+<li>Só abre uma instância por concentradora (&quot;CS PDV Sync já está em execução&quot;). Pode estar escondido na bandeja.</li>
+<li>O código não o inicia sozinho com o Windows: depende de atalho ou agendamento no posto <strong>(inferido)</strong>.</li>
+</ul>
+<h3>Configuração (<code>CS_PDV_Sync.ini</code>)</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Seção</th>
+<th>Chaves</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[CS_PDV_SYNC.DATABASE]</code></td>
+<td><code>HOST</code>, <code>PORT</code>, <code>DB</code>, <code>USERNAME</code>, <code>PASSWORD</code></td>
+</tr>
+<tr>
+<td><code>[CS_PDV_SYNC.THREADS]</code></td>
+<td><code>ATIVA_CONCENTRADORA</code>, <code>ATIVA_SINCRONIZACAO</code>, <code>ATIVA_MOVIMENTACAO</code>, <code>ATIVA_NF</code> (inclui contingência), <code>ATIVA_NFS</code>, <code>ATIVA_MONITORAMENTO</code>, <code>ATIVA_RELEASE</code> (S/N)</td>
+</tr>
+<tr>
+<td><code>[CS_PDV_SYNC.WEBMODULE]</code></td>
+<td><code>ATIVA_WEBMODULE</code>, <code>WEBMODULE_PORTA</code>, <code>WEBMODULE_USARHTTP</code> (S = HTTP; N = HTTPS, que exige <code>certificados\cert.crt</code> e <code>cert.key</code>)</td>
+</tr>
+<tr>
+<td><code>[CS_PDV_SYNC.CONCENTRADORA]</code></td>
+<td><code>CONCENT_ID</code>, <code>CONCENT_IP</code>, <code>CONCENT_PORTA</code>, <code>ATUALIZA_PRECO_BOMBA</code></td>
+</tr>
+<tr>
+<td><code>[CS_PDV_SYNC.NF]</code> / <code>[CS_PDV_SYNC.NFS]</code></td>
+<td><code>SALVAR_OCORRENCIAS</code> (salva os XMLs de envio e retorno), <code>BOTAO_RECRIAR_XML</code></td>
+</tr>
+</tbody></table></div>
+<p><strong>Posto com mais de uma concentradora:</strong> um segundo Sync com <code>CONCENT_ID=2</code> (ou maior) entra no &quot;modo concentradora extra&quot;. Nesse modo ele só lê a bomba e desliga todas as outras rotinas.</p>
+<h3>Rotinas</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Rotina</th>
+<th>Frequência</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sincronização (retaguarda → PDV)</td>
+<td>A cada <code>parametros.thread_get_retag_ms</code> (padrão 5 s), se <code>ativa_endpoint_sincronizacao=&#39;S&#39;</code></td>
+<td>Busca eventos de cadastro, grava em <code>app.integracao_pdv</code>, aplica nas tabelas locais e confirma. Também executa cargas completas (<code>app.carga_sincronizacao</code>)</td>
+</tr>
+<tr>
+<td>Movimento (PDV → retaguarda)</td>
+<td>A cada <code>thread_sinc_ret_ms</code> (padrão 60 s)</td>
+<td>Envia vendas e tabelas. Marca <code>STATUS_INTEGRACAO=&#39;I&#39;</code> quando a retaguarda responde OK; se não responder, tenta de novo no próximo ciclo</td>
+</tr>
+<tr>
+<td>Eventos NF</td>
+<td>A cada ~1 s</td>
+<td>Consome <code>tmp_nf_integrador</code> e transmite para a SEFAZ (ACBr, timeout de 80 s, 5 tentativas)</td>
+</tr>
+<tr>
+<td>Contingência NF</td>
+<td>Ciclo de 10 s; transmite a cada 120 s</td>
+<td>NFC-e off-line e NF-e em SVC (ver seção 6)</td>
+</tr>
+<tr>
+<td>Eventos NFS</td>
+<td>~1 s</td>
+<td>NFS-e: Padrão Nacional ou provedor municipal (hoje Sidrolândia-MS/Fiorilli)</td>
+</tr>
+<tr>
+<td>Leitura Concentradora</td>
+<td>Abastecimentos e status: 1 s · preço: 60 s · medição: 60 s</td>
+<td>Ver seção 5</td>
+</tr>
+<tr>
+<td>Monitoramento</td>
+<td>5 s</td>
+<td>Reinicia rotinas paradas ou com mais de 10 erros seguidos (no máximo 1 vez a cada 30 s). Não vigia NFS, Contingência e Release <strong>(inferido)</strong></td>
+</tr>
+<tr>
+<td>Release</td>
+<td>30 s</td>
+<td>Só atualiza o <strong>catálogo</strong> de releases (<code>app.release</code>). Quem aplica é a tela <em>Atualizações</em> do PDV App. O Sync <strong>não se atualiza sozinho</strong></td>
+</tr>
+<tr>
+<td>WebModule</td>
+<td>Contínuo</td>
+<td>Mesma API dos POS descrita na seção 4. Só sobe na máquina principal (<code>CONCENT_ID</code> ≤ 1)</td>
+</tr>
+</tbody></table></div>
+<h3>Erros comuns</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Mensagem</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;Não foi possível conectar ao banco…&quot;</td>
+<td>INI, PostgreSQL no ar, pasta <code>..\PgLib</code></td>
+</tr>
+<tr>
+<td>&quot;Configuração da API de retaguarda não cadastrada / client_id… / mais de uma&quot;</td>
+<td>Tabela <code>app.parametros_api_retaguarda</code> (exatamente 1 linha)</td>
+</tr>
+<tr>
+<td>&quot;Autorização OAuth recusada (HTTP 401/403)&quot; / &quot;O retaguarda não respondeu&quot;</td>
+<td>client_id/secret, URL, internet, firewall</td>
+</tr>
+<tr>
+<td>&quot;Não existe chave identificadora da instância gerada&quot;</td>
+<td><code>parametros.instancia</code> está vazia: Sincronização e Movimento não sobem</td>
+</tr>
+<tr>
+<td>&quot;A instância do Sync mudou durante a execução&quot;</td>
+<td>Alguém alterou <code>parametros.instancia</code>: <strong>reinicie o Sync</strong></td>
+</tr>
+<tr>
+<td>&quot;Erro HTTP ao enviar JSON de movimentação&quot;</td>
+<td>Retaguarda fora do ar ou rejeitando dados. A venda fica pendente e vai de novo no próximo ciclo</td>
+</tr>
+<tr>
+<td>&quot;Erro na fila de sincronização&quot;</td>
+<td>Registros <strong>bloqueados</strong> em <code>app.integracao_pdv</code> (<code>pendente_erro=&#39;S&#39;</code>; veja <code>erro</code> e <code>tipo_erro</code>)</td>
+</tr>
+<tr>
+<td>&quot;Certificado digital vencido&quot;</td>
+<td><code>nf_certificadodigital</code></td>
+</tr>
+<tr>
+<td>&quot;Provedor NFSe não implementado para o município…&quot;</td>
+<td>O município não está atendido</td>
+</tr>
+<tr>
+<td>&quot;Ciclo de status dos bicos ignorado: outra instância…&quot;</td>
+<td><strong>Dois programas na mesma concentradora</strong> (Sync + CS_Concentrador, ou dois Syncs)</td>
+</tr>
+<tr>
+<td>&quot;Porta do WebModule não informada / Certificado não encontrado / Erro ao iniciar HTTPS&quot;</td>
+<td>Seção WEBMODULE do INI, certificados ou porta em uso. É o primeiro ponto a olhar quando o <strong>POS não comunica</strong></td>
+</tr>
+</tbody></table></div>
+<h3>Logs</h3>
+<ol>
+<li><strong>Tela › Painel de Sincronização:</strong> log em memória (até 5.000 linhas), com filtros e o botão <strong>Exportar</strong>. ⚠ <strong>Essas linhas se perdem ao fechar o programa.</strong> Exporte antes de reiniciar. Os erros da rotina Movimento, por exemplo, só aparecem aqui.</li>
+<li><strong>Tela › Log de Erros:</strong> tabela <code>log_sincronizacao</code>.</li>
+<li><strong>Tela › Concentradora:</strong> tabela <code>log_abastecimento</code>.</li>
+<li><strong>Arquivo</strong> <code>logs\CS_PDV_Sync_AAAA-MM-DD.log</code>: somente exceções não tratadas, mantidas por 30 dias.</li>
+<li><strong>XMLs fiscais:</strong> pastas <code>nfe\</code> e <code>nfc\</code> dentro da pasta do exe (<code>enviadas</code>, <code>eventos</code>, <code>inutilizacao</code>, <code>ocorrencias\&lt;CNPJ&gt;</code>).</li>
+</ol>
+<hr>
+<h2 id="s3">3. CS Monitor (<code>cs_monitor</code>): painel do suporte</h2>
+<h3>O que é</h3>
+<p>É o <strong>aplicativo do suporte</strong> para instalar, controlar e acompanhar os serviços CS_*. Ele não executa nenhuma rotina: pode ser aberto, fechado ou atualizado sem afetar o posto. Fica em <code>C:\cspdv\Monitor</code> (exemplo).</p>
+<ul>
+<li>Parâmetro <code>/bandeja</code>: inicia minimizado ao lado do relógio, útil para colocar na inicialização do Windows. Na bandeja, o Monitor avisa com um balão se algum serviço parar sem ter sido parado por ele.</li>
+</ul>
+<h3>Configuração (<code>CS_Monitor.ini</code>)</h3>
+<ul>
+<li><code>[CS_MONITOR.DATABASE]</code>: conexão com o banco.</li>
+<li><code>[CS_MONITOR.SERVICOS]</code>:<ul>
+<li><code>SERVICOS=CS_Fiscal,CS_API,CS_Integracao,CS_Concentrador</code></li>
+<li><code>PASTA_BASE=</code> (vazio = pasta acima do Monitor).</li>
+</ul>
+</li>
+<li><code>[CS_MONITOR.NF] BOTAO_RECRIAR_XML=S</code>: mostra a ferramenta de recriar XML.</li>
+<li>Se aparecer erro de <code>sk4d.dll</code>: rode o Monitor uma vez como administrador ou copie a DLL da pasta do PDV App.</li>
+</ul>
+<h3>Abas</h3>
+<ol>
+<li><strong>Serviços</strong><ul>
+<li><strong>Parte de cima:</strong> os serviços CS_* da máquina, com estado no Windows, tipo de inicialização e exe. Para o Concentrador, mostra também IP e porta.<ul>
+<li><strong>Iniciar / Reiniciar / Parar / Atualizar:</strong> aceitam vários serviços selecionados.</li>
+<li><strong>Instalar…:</strong><ul>
+<li>escolha o exe;</li>
+<li>o assistente oferece copiar a conexão do banco do Monitor;</li>
+<li>para o Concentrador, pede número, IP e porta da concentradora;</li>
+<li>para a API, pede porta e HTTP/HTTPS;</li>
+<li>pede permissão de administrador (UAC).</li>
+</ul>
+</li>
+<li><strong>Desinstalar.</strong></li>
+<li><strong>Liberar controle…:</strong> use quando aparecer &quot;Precisa liberar&quot; ou &quot;Sem acesso&quot; ao iniciar ou parar um serviço.</li>
+</ul>
+</li>
+<li><strong>Parte de baixo:</strong> status por thread de <strong>todas as máquinas</strong>. Colunas: Estado, Último ciclo, Ciclos, Reinícios, <strong>Sinal</strong>, Máquina, Versão, Shared, Último erro. Duplo clique abre o log.<ul>
+<li><strong>Sinal</strong> <code>N s</code> = normal · <strong>SEM SINAL</strong> = mais de 60 s sem resposta (serviço caiu, travou ou está sem banco) · <code>parado</code> = parada registrada.</li>
+<li><strong>Estados:</strong> P parada · I iniciando · R rodando · E erro · X reiniciando · D desligada.</li>
+<li><strong>Shared</strong> diferente entre os serviços indica que <strong>algum exe está desatualizado</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Threads:</strong> liga e desliga cada rotina de cada serviço. Depois clique em <strong>Salvar</strong>. O serviço aplica a mudança em até 10 s, <strong>sem reiniciar</strong>. Fica registrado quem alterou. Vale para o serviço em qualquer máquina.</li>
+<li><strong>Log do serviço:</strong> abre o log em arquivo de cada serviço (inclusive <code>.zip</code> de dias anteriores). Tem filtro e a opção &quot;Seguir (a cada 2 s)&quot;, que acompanha o log ao vivo.</li>
+<li><strong>Log no banco:</strong> consulta <code>log_sincronizacao</code> por período e origem.</li>
+<li><strong>Ferramentas</strong><ul>
+<li><strong>Recriar XML autorizado…</strong> (só com <code>BOTAO_RECRIAR_XML=S</code>). Para notas autorizadas na SEFAZ cujo XML se perdeu ou corrompeu no banco.<ul>
+<li>Informe o id da venda e o modelo (55 ou 65).</li>
+<li>A ferramenta <strong>apenas consulta</strong> a SEFAZ (não emite) e regrava em <code>venda_nf</code>. Faz backup em <code>&lt;Monitor&gt;\recuperacaoxml\</code>.</li>
+</ul>
+</li>
+<li>Atalho para <em>Serviços do Windows</em>.</li>
+</ul>
+</li>
+</ol>
+<h3>Erros comuns</h3>
+<ul>
+<li>&quot;Sem acesso&quot; ao iniciar ou parar: use <strong>Liberar controle…</strong>.</li>
+<li>&quot;Sem conexão com o banco&quot;: confira <code>[CS_MONITOR.DATABASE]</code>.</li>
+<li>Log &quot;arquivo não encontrado&quot;: o serviço ainda não gravou log hoje, ou <code>PASTA_BASE</code> está errada.</li>
+</ul>
+<hr>
+<h2 id="s4">Base comum dos 4 serviços (API, Concentrador, Fiscal, Integração)</h2>
+<h3>Instalação e controle (linha de comando, como administrador)</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Efeito</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;exe&gt; /install</code></td>
+<td>Instala o serviço com reinício automático em caso de falha (5 s, 15 s e 60 s) e libera iniciar e parar para usuários comuns</td>
+</tr>
+<tr>
+<td><code>&lt;exe&gt; /install /forcar</code></td>
+<td>Instala mesmo que o serviço esteja ativo em outra máquina</td>
+</tr>
+<tr>
+<td><code>&lt;exe&gt; /uninstall</code></td>
+<td>Remove o serviço</td>
+</tr>
+<tr>
+<td><code>&lt;exe&gt; /app</code></td>
+<td>Roda em janela de console para diagnóstico (Ctrl+C para sair). O serviço precisa estar parado antes</td>
+</tr>
+</tbody></table></div>
+<p>Também é possível iniciar e parar pelo <strong>Monitor</strong>, por <code>services.msc</code> ou com <code>net start</code> / <code>net stop &lt;nome&gt;</code>. Na parada, o serviço espera até 40 s para terminar o que está fazendo.</p>
+<h3>Comportamentos que o suporte precisa conhecer</h3>
+<ul>
+<li><strong>Sem banco, o serviço não cai.</strong> Ele tenta reconectar a cada 10 s. Pode corrigir o INI sem reiniciar.</li>
+<li><strong>Vigia interno:</strong> a cada 5 s, recria a rotina que parou ou que acumulou erros (no máximo 1 vez a cada 30 s). Cada recriação aparece na coluna <strong>Reinícios</strong> do Monitor.</li>
+<li><strong>Só uma instância ativa por serviço, no banco inteiro.</strong> Se o mesmo serviço estiver instalado em duas máquinas, só uma processa. A outra registra no log &quot;<em>… já está ativo em máquina X. Esta instância fica parada</em>&quot;. A solução é desinstalar o serviço de uma das máquinas.</li>
+<li><strong>Pré-requisitos não atendidos</strong> (por exemplo, falta de configuração): o log mostra &quot;Threads não iniciadas: …&quot; e o serviço verifica de novo a cada 60 s.</li>
+<li><strong>Scripts de banco:</strong> sem o script <code>001</code> não há status no Monitor. Sem o <code>002</code> (índice de <code>log_sincronizacao</code>) não há limpeza do log no banco. Sem o <code>003</code> todas as threads ficam no padrão. O <code>004</code> trata da limpeza de auditoria. Em todos os casos aparece um aviso no log.</li>
+</ul>
+<h3>Log em arquivo</h3>
+<ul>
+<li><p>Local: <code>&lt;pasta do serviço&gt;\logs\&lt;exe&gt;_AAAA-MM-DD.log</code>. As exceções ficam em <code>&lt;exe&gt;_excecoes_AAAA-MM-DD.log</code>.</p>
+</li>
+<li><p>Formato: <code>data hora SEVERIDADE ORIGEM THREAD | mensagem</code>. Mensagens repetidas são agrupadas em uma linha (&quot;repetida N vezes&quot;).</p>
+</li>
+<li><p>Configuração em <code>[&lt;SERVIÇO&gt;.LOG]</code>:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Chave</th>
+<th>Padrão</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NIVEL_LOG</code></td>
+<td>INFO</td>
+<td>Nível de detalhe: ERRO, AVISO, INFO ou DEBUG. Use DEBUG para diagnóstico</td>
+</tr>
+<tr>
+<td><code>DIAS_LOG</code></td>
+<td>30</td>
+<td>Dias de retenção</td>
+</tr>
+<tr>
+<td><code>MAX_MB_DIA</code></td>
+<td>100</td>
+<td>Acima disso, grava só avisos e erros; acima do dobro, para de gravar até a meia-noite</td>
+</tr>
+<tr>
+<td><code>MAX_MB_TOTAL</code></td>
+<td>500</td>
+<td>Tamanho máximo da pasta de logs</td>
+</tr>
+<tr>
+<td><code>MIN_GB_LIVRE_INFO</code> / <code>MIN_GB_LIVRE_ERRO</code></td>
+<td>5 / 1</td>
+<td>Com o disco abaixo desses valores, grava menos</td>
+</tr>
+<tr>
+<td><code>COMPACTA_LOG</code></td>
+<td>S</td>
+<td>Dias fechados são compactados em <code>.zip</code></td>
+</tr>
+</tbody></table></div>
+</li>
+<li><p><strong>Limpeza no banco</strong>, a cada 6 h: registros de <code>log_sincronizacao</code> e de <code>app.servico_thread_status</code> com mais de 30 dias.</p>
+<ul>
+<li>A tabela grande só gera aviso: o DELETE não devolve espaço ao disco. Para recuperar o espaço é preciso <code>VACUUM FULL</code> em janela de manutenção.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="s5">4. CS API (<code>cs_svcapi</code>): API para os SmartPOS</h2>
+<ul>
+<li><strong>Serviço Windows:</strong> <code>CS_API</code> (&quot;CS API&quot;). Pasta: <code>C:\cspdv\API</code>. <strong>Instale só na máquina principal.</strong></li>
+<li><strong>Configuração</strong> (<code>CS_SvcAPI.ini</code>):<ul>
+<li><code>[CS_API.DATABASE]</code>: conexão com o banco.</li>
+<li><code>[CS_API.WEBMODULE]</code>: <code>WEBMODULE_PORTA</code> (padrão 443) e <code>WEBMODULE_USARHTTP</code> (S = HTTP, padrão; N = HTTPS).</li>
+<li>HTTPS exige <code>certificados\cert.crt</code> e <code>cert.key</code> e as DLLs do OpenSSL na pasta.</li>
+<li><strong>Libere a porta no firewall.</strong></li>
+</ul>
+</li>
+<li><strong>Autenticação:</strong> cabeçalhos <code>user</code> e <code>pass</code>, com credencial fixa no sistema (consulte o desenvolvimento). Credencial errada retorna <strong>HTTP 500 &quot;Usuário ou senha inválidos&quot;</strong>. Atenção: não é 401.</li>
+<li><strong>A API não emite nota.</strong> Ela grava a venda e enfileira a NF em <code>tmp_nf_integrador</code>, e quem transmite é o CS_Fiscal.<ul>
+<li>No <strong>cancelamento</strong>, a API espera o retorno por até 6 s. Se não vier, responde &quot;Timeout aguardando retorno de cancelamento…&quot; e o pedido continua na fila.</li>
+</ul>
+</li>
+</ul>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Rota</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET <code>/api/pdv</code>, <code>/clientes</code>, <code>/produtos</code>, <code>/tabelapreco</code>, <code>/funcionarios</code>, <code>/usuarios</code>, <code>/veiculosfornecedor</code>, <code>/configuracoespos</code></td>
+<td>Dados de cadastro para o POS</td>
+</tr>
+<tr>
+<td>GET <code>/api/abastecimentos</code></td>
+<td>Abastecimentos livres ou em uso por um POS</td>
+</tr>
+<tr>
+<td>GET <code>/api/nf</code></td>
+<td>Dados da NF da venda</td>
+</tr>
+<tr>
+<td>GET <code>/api/creditocliente</code>, <code>/creditopessoadisponivel</code>, <code>/creditoitemdisponivel</code>, <code>/creditorequisicaodisponivel</code></td>
+<td>Limite e crédito do cliente</td>
+</tr>
+<tr>
+<td>GET <code>/api/buscabackup</code> / POST <code>/api/backup</code></td>
+<td>Backup do POS</td>
+</tr>
+<tr>
+<td>POST <code>/api/usuarios/autenticar</code></td>
+<td>Login do operador no POS</td>
+</tr>
+<tr>
+<td>POST <code>/api/bicostatus</code></td>
+<td>Reserva ou libera um abastecimento para o POS</td>
+</tr>
+<tr>
+<td>POST <code>/api/enviavenda</code></td>
+<td>Grava a venda (409 = venda já enviada, mesmo <code>id_mobile</code>)</td>
+</tr>
+<tr>
+<td>POST <code>/api/cancelamentovenda</code></td>
+<td>Cancela a venda e a NF</td>
+</tr>
+<tr>
+<td>POST <code>/api/serialpos</code></td>
+<td>Registra o serial do POS</td>
+</tr>
+</tbody></table></div>
+<p>Respostas: 400 = dado inválido · 409 = duplicado · 500 = erro interno ou credencial errada. Os JSONs recebidos ficam em <code>INTEGRACAO_POS</code> (coluna <code>ERRO</code> em caso de falha). Esses registros aparecem na tela <em>ADMIN › Integração POS</em> do PDV App.</p>
+<p><strong>Erros comuns</strong></p>
+<ul>
+<li>POS não conecta: serviço rodando? Porta e firewall liberados? POS usando o <strong>mesmo protocolo</strong> (HTTP ou HTTPS)?</li>
+<li>&quot;Certificado não encontrado&quot;: falta <code>certificados\cert.crt</code> ou <code>cert.key</code>.</li>
+<li>Timeout no cancelamento: verifique se o CS_Fiscal está rodando e se a thread EventosNF está ligada.</li>
+</ul>
+<hr>
+<h2 id="s6">5. CS Concentrador (<code>cs_svcconcentrador</code>): bombas Companytec</h2>
+<ul>
+<li><strong>Serviço Windows:</strong> uma instância por concentradora.<ul>
+<li><code>CONCENT_ID=1</code>: serviço <code>CS_Concentrador</code>, em <code>C:\cspdv\Concentrador</code>.</li>
+<li><code>CONCENT_ID=N</code>: serviço <code>CS_Concentrador_N</code>, em <code>C:\cspdv\Concentrador_N</code>, com INI próprio.</li>
+</ul>
+</li>
+<li>A <code>companytec.dll</code> é extraída automaticamente na partida. Para isso, a pasta precisa permitir gravação.</li>
+<li><strong>Configuração</strong> (<code>CS_SvcConcentrador.ini</code>):<ul>
+<li><code>[CS_CONCENTRADOR.DATABASE]</code>: conexão com o banco.</li>
+<li><code>[CS_CONCENTRADOR.CONCENTRADORA]</code>: <code>CONCENT_ID</code>, <code>CONCENT_IP</code>, <code>CONCENT_PORTA</code> (vazio = porta padrão) e <code>ATUALIZA_PRECO_BOMBA</code> (S).</li>
+</ul>
+</li>
+<li><strong>Pré-requisitos:</strong> <code>parametros.utiliza_bicos=&#39;S&#39;</code> e <code>CONCENT_IP</code> preenchido. Quando faltam, o serviço verifica de novo a cada 60 s.</li>
+<li><strong>Intervalos</strong> (tabela <code>parametros</code>): <code>thread_status_abast_ms</code> (1 s), <code>thread_abastecimento_ms</code> (1 s), <code>thread_preco_bico_ms</code> (60 s) e <code>thread_medicao_tanque_ms</code> (60 s).</li>
+</ul>
+<p><strong>O que faz</strong></p>
+<ol>
+<li><strong>Status dos bicos</strong> (livre, abastecendo…): grava em <code>app.tmp_bico_status</code>. São as cores dos bicos na tela do PDV.</li>
+<li><strong>Abastecimentos:</strong> lê cada abastecimento da concentradora, confere integridade e checksum, grava em <code>bico_status</code> e só depois confirma a leitura na concentradora. Assim nada se perde se o banco falhar.<ul>
+<li>Ignora abastecimentos com 0 litros, bicos marcados para ignorar e abastecimentos duplicados.</li>
+</ul>
+</li>
+<li><strong>Preço na bomba:</strong> envia as alterações agendadas em <code>alteracao_preco_bico</code> quando chega a data e hora prevista.</li>
+<li><strong>Medição de tanques:</strong> no horário de <code>agenda_medicao_tanque</code>, lê o medidor e grava em <code>tanque_medicao</code>.</li>
+</ol>
+<p>As ocorrências vão para <code>log_abastecimento</code>. No PDV, ficam em <em>Consultas › Log de Abastecimento</em>.</p>
+<p><strong>Erros comuns</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Mensagem</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;parametros.utiliza_bicos &lt;&gt; &#39;S&#39;&quot; / &quot;CONCENT_IP não informado&quot;</td>
+<td>Corrija o parâmetro ou o INI e aguarde até 60 s</td>
+</tr>
+<tr>
+<td>&quot;Falha ao conectar concentradora: id/ip/porta&quot;</td>
+<td>IP, porta, cabo, ping na concentradora</td>
+</tr>
+<tr>
+<td>&quot;Ciclo de status dos bicos ignorado: concentradora desconectada&quot;</td>
+<td>Mesmo diagnóstico do item acima</td>
+</tr>
+<tr>
+<td>&quot;Ciclo… ignorado: outra instância está atualizando a mesma concentradora&quot;</td>
+<td>Sync com <code>ATIVA_CONCENTRADORA=S</code> junto com o serviço: desligue um dos dois</td>
+</tr>
+<tr>
+<td>&quot;Leitura de abastecimento descartada&quot;</td>
+<td>Falha de integridade na comunicação: verifique cabo e ruído</td>
+</tr>
+<tr>
+<td>&quot;…ignorado por configuração do INI&quot;</td>
+<td><code>ATUALIZA_PRECO_BOMBA=N</code>: o preço não vai para a bomba</td>
+</tr>
+<tr>
+<td>&quot;Não foi possível extrair companytec.dll&quot;</td>
+<td>A pasta do serviço não permite gravação</td>
+</tr>
+<tr>
+<td>PDV mostra &quot;Não há abastecimento disponível&quot;</td>
+<td>O serviço está parado ou SEM SINAL no Monitor</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="s7">6. CS Fiscal (<code>cs_svcfiscal</code>): NF-e, NFC-e e NFS-e</h2>
+<ul>
+<li><strong>Serviço Windows:</strong> <code>CS_Fiscal</code> (&quot;CS Fiscal&quot;). Pasta: <code>C:\cspdv\Fiscal</code>. Para atualizar: pare o serviço, troque o exe e inicie de novo.</li>
+<li><strong>Configuração</strong> (<code>CS_SvcFiscal.ini</code>):<ul>
+<li><code>[CS_FISCAL.DATABASE]</code>: conexão com o banco.</li>
+<li><code>[CS_FISCAL.NF] SALVAR_OCORRENCIAS</code> e <code>[CS_FISCAL.NFS] SALVAR_OCORRENCIAS</code>: com S, salva os XMLs de envio e retorno para diagnóstico.</li>
+</ul>
+</li>
+<li>Certificado A1, senha, validade e ambiente (P = produção, senão homologação) ficam no banco, em <code>nf_certificadodigital</code> e <code>nf_modelo</code>, por filial.</li>
+<li>⚠ <strong>Com o CS_Fiscal ativo, o <code>CS_PDV_Sync.ini</code> deve ficar com <code>ATIVA_NF=N</code> e <code>ATIVA_NFS=N</code>.</strong></li>
+</ul>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Thread</th>
+<th>Padrão</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EventosNF</td>
+<td>ligada</td>
+<td>Consome <code>tmp_nf_integrador</code> (status 1 → 2 → <strong>3 sucesso / 4 erro</strong>). Operações: 1 = transmitir, 2 = cancelar, 3 = carta de correção, 4/5 = consulta, 6 = inutilização. Grava XML e protocolo em <code>venda_nf</code> e a rejeição em <code>venda_nf_log</code></td>
+</tr>
+<tr>
+<td>ContingenciaNF</td>
+<td>ligada (depende da EventosNF)</td>
+<td>NFC-e off-line e NF-e em SVC. Transmite a cada 120 s, em lotes de 50. Avisa com 12 h; o prazo é de 24 h. Após 10 tentativas a nota vira <code>E</code> (análise manual)</td>
+</tr>
+<tr>
+<td>EventosNFS</td>
+<td><strong>desligada</strong></td>
+<td>NFS-e. Ligue na aba Threads do Monitor se o posto emitir nota de serviço</td>
+</tr>
+</tbody></table></div>
+<h3>Contingência (chaves manuais em <code>app.parametros</code>; nada liga sozinho)</h3>
+<ul>
+<li><strong>NFC-e off-line:</strong> <code>nfce_envio_offline=&#39;S&#39;</code>.<ul>
+<li><p>Enquanto a chave estiver ligada, as notas saem off-line e <strong>não são transmitidas</strong>.</p>
+</li>
+<li><p><strong>Ao desligar</strong>, a thread transmite as pendentes:</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>T</strong></td>
+<td>Autorizada</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>Rejeitada (correção manual)</td>
+</tr>
+<tr>
+<td><strong>N</strong></td>
+<td>Sem comunicação (tenta de novo)</td>
+</tr>
+</tbody></table></div>
+</li>
+<li><p>As pendências sem retorno são resolvidas por cancelamento por substituição ou por inutilização.</p>
+</li>
+<li><p>⚠ Prazo legal de <strong>24 h</strong>: não esqueça a chave ligada.</p>
+</li>
+</ul>
+</li>
+<li><strong>NF-e em SVC:</strong> <code>nfe_contingencia_svc</code>, <code>nfe_svc_tipo</code> (SVC-AN, SVC-RS ou vazio = conforme a UF).</li>
+</ul>
+<h3>Erros comuns</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Notas paradas com status 1</td>
+<td>O serviço e a thread EventosNF estão ligados? O Sync está com <code>ATIVA_NF=S</code> em conflito?</td>
+</tr>
+<tr>
+<td>Status 2 há muito tempo</td>
+<td>Processamento travado: veja o log e reinicie o serviço</td>
+</tr>
+<tr>
+<td>Status 4</td>
+<td>Leia <code>venda_nf_log.retorno</code> da venda (texto da SEFAZ) e o log (&quot;Falha inesperada no processamento fiscal&quot;)</td>
+</tr>
+<tr>
+<td>&quot;Certificado digital vencido&quot; / senha inválida</td>
+<td><code>nf_certificadodigital</code></td>
+</tr>
+<tr>
+<td>&quot;Contingência… não configurada no banco&quot;</td>
+<td>Script de contingência não aplicado</td>
+</tr>
+<tr>
+<td>Alerta de prazo off-line a cada 10 min</td>
+<td>Desligue <code>nfce_envio_offline</code> para transmitir</td>
+</tr>
+<tr>
+<td>PDV em &quot;Aguardando autorização fiscal&quot; sem fim</td>
+<td>Este serviço parado ou SEM SINAL no Monitor</td>
+</tr>
+</tbody></table></div>
+<p>Os erros também vão para <code>log_sincronizacao</code> (no Monitor, <em>Log no banco</em>, origem NF).</p>
+<hr>
+<h2 id="s8">7. CS Integração (<code>cs_svcintegracao</code>): retaguarda e releases</h2>
+<ul>
+<li><strong>Serviço Windows:</strong> <code>CS_Integracao</code> (&quot;CS Integracao&quot;). Uma falha aqui <strong>não impede venda nem emissão de nota</strong>: só atrasa cadastros e o envio do movimento.</li>
+<li><strong>Configuração:</strong><ul>
+<li><code>CS_SvcIntegracao.ini</code>: <code>[CS_INTEGRACAO.DATABASE]</code> e <code>[CS_INTEGRACAO.BACK_OFFICE_SYNC] BATCH_SIZE</code> (padrão 200, máximo 1000).</li>
+<li>No banco:<ul>
+<li><code>app.parametros_api_retaguarda</code> (url_base, url_oauth, client_id, client_secret), com <strong>exatamente 1 linha</strong>;</li>
+<li><code>parametros.instancia</code>, que identifica o posto na retaguarda;</li>
+<li><code>parametros.thread_get_retag_ms</code> (5 s), <code>thread_sinc_ret_ms</code> (60 s) e <code>ativa_endpoint_sincronizacao</code> (S/N);</li>
+<li><code>app.parametros_release</code>, para as releases.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Thread</th>
+<th>Padrão</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sincronizacao</td>
+<td>ligada</td>
+<td><strong>Retaguarda → posto:</strong> busca eventos de cadastro (produtos, clientes, preços, usuários…), grava em <code>app.integracao_pdv</code> e aplica nas tabelas locais. Também faz cargas completas</td>
+</tr>
+<tr>
+<td>Movimento</td>
+<td>ligada</td>
+<td><strong>Posto → retaguarda:</strong> envia vendas e demais tabelas a cada 60 s</td>
+</tr>
+<tr>
+<td>Release</td>
+<td><strong>desligada</strong></td>
+<td>Atualiza o catálogo de atualizações de banco (<code>app.release</code>). A aplicação é feita pela tela <em>Atualizações</em> do PDV App</td>
+</tr>
+</tbody></table></div>
+<h3>Fila de cadastros <code>app.integracao_pdv</code></h3>
+<ul>
+<li>Cada evento tem <strong>até 8 tentativas</strong>:<ul>
+<li>erro transitório (rede, timeout): espera de 30 s até 15 min;</li>
+<li>erro de dependência (por exemplo, produto que chega antes do grupo): espera de 5 min até 1 h.</li>
+</ul>
+</li>
+<li>Erros de dados, payload ou estrutura <strong>bloqueiam</strong> o evento na hora (<code>pendente_erro=&#39;S&#39;</code>; motivo em <code>erro</code> e <code>tipo_erro</code>).<ul>
+<li><strong>Um evento bloqueado segura os eventos seguintes da mesma entidade.</strong> Exemplo: um produto bloqueado não recebe mais atualizações de preço.</li>
+<li><strong>Não se resolve sozinho:</strong> corrija a causa (normalmente o cadastro na retaguarda) e reprocesse. Para reprocessar, é preciso zerar <code>pendente_erro</code>, <code>tipo_erro</code> e <code>tentativas</code> <strong>(inferido)</strong>; acione o desenvolvimento.</li>
+</ul>
+</li>
+<li>A tela <em>ADMIN › Integração Retaguarda</em> do PDV App mostra essa fila.</li>
+</ul>
+<h3>Erros comuns</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Mensagem</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Threads &quot;Aguardando&quot; / &quot;não existe chave identificadora da instância… gere a instância&quot;</td>
+<td><code>parametros.instancia</code> está vazia</td>
+</tr>
+<tr>
+<td>&quot;Configuração da API de retaguarda não foi cadastrada&quot; / &quot;Existe mais de uma configuração&quot;</td>
+<td><code>app.parametros_api_retaguarda</code></td>
+</tr>
+<tr>
+<td>Erros HTTP / OAuth 401-403</td>
+<td>URL, client_id/secret, internet, firewall</td>
+</tr>
+<tr>
+<td>Cadastro não chega ao PDV</td>
+<td>Eventos bloqueados em <code>integracao_pdv</code>, ou <code>ativa_endpoint_sincronizacao=&#39;N&#39;</code></td>
+</tr>
+<tr>
+<td>Vendas não chegam à retaguarda</td>
+<td>Log da thread Movimento. As vendas ficam pendentes até a retaguarda responder OK</td>
+</tr>
+<tr>
+<td>&quot;Releases desativadas: …&quot;</td>
+<td><code>app.parametros_release</code> não configurado (normal se não usa)</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="s9">Checklist rápido de atendimento</h2>
+<ol>
+<li><p><strong>Abra o CS Monitor › Serviços.</strong> Todos os serviços devem estar &quot;Rodando&quot;, com <strong>Sinal</strong> abaixo de 60 s.</p>
+</li>
+<li><p><strong>SEM SINAL?</strong> Verifique o serviço no Windows, o PostgreSQL no ar, o INI <code>[X.DATABASE]</code> e o log do dia (aba <em>Log do serviço</em>).</p>
+</li>
+<li><p><strong>Reinícios subindo?</strong> Leia a coluna <em>Último erro</em> e o log da thread.</p>
+</li>
+<li><p><strong>Thread &quot;D&quot; (desligada)?</strong> Ligue na aba Threads e aguarde 10 s.</p>
+</li>
+<li><p><strong>&quot;Já está ativo em máquina X&quot;?</strong> O mesmo serviço está instalado em duas máquinas: desinstale de uma delas.</p>
+</li>
+<li><p><strong>Coluna Shared diferente?</strong> Algum exe está desatualizado.</p>
+</li>
+<li><p><strong>Sync e serviço fazendo a mesma coisa?</strong> Veja a tabela &quot;Regra de ouro&quot; na seção 0 e desligue a rotina no <code>CS_PDV_Sync.ini</code>.</p>
+</li>
+<li><p><strong>Problema no caixa</strong> (bico, nota, cadastro):</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Onde olhar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bico sem abastecimento</td>
+<td>CS_Concentrador</td>
+</tr>
+<tr>
+<td>Nota não sai</td>
+<td>CS_Fiscal + <code>tmp_nf_integrador</code> / <code>venda_nf_log</code></td>
+</tr>
+<tr>
+<td>Produto, preço ou usuário não chegou</td>
+<td>CS_Integracao + <code>integracao_pdv</code></td>
+</tr>
+<tr>
+<td>POS sem comunicação</td>
+<td>CS_API</td>
+</tr>
+</tbody></table></div>
+</li>
+<li><p><strong>Disco cheio?</strong> Os logs se autolimitam. Se <code>log_sincronizacao</code> estiver grande, confira o índice (script 002) e avalie <code>VACUUM FULL</code>.</p>
+</li>
+</ol>
+
+  </main>
+</div>
+</body>
+</html>
